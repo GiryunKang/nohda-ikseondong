@@ -1,5 +1,4 @@
 import Link from "next/link";
-import { headers } from "next/headers";
 
 import { createClient } from "@/lib/supabase/server";
 
@@ -8,36 +7,34 @@ export default async function AdminLayout({
 }: {
   children: React.ReactNode;
 }) {
-  const headersList = await headers();
-  const pathname = headersList.get("x-next-url") ?? headersList.get("x-pathname") ?? "";
-  const isLoginPage = pathname.includes("/admin/login");
-
-  if (isLoginPage) {
-    return <>{children}</>;
-  }
-
   let profile: { name: string; role: string } | null = null;
+  let isAuthenticated = false;
 
   try {
     const supabase = await createClient();
     const { data: { user } } = await supabase.auth.getUser();
 
-    if (!user) {
-      return <>{children}</>;
+    if (user) {
+      isAuthenticated = true;
+
+      const { data, error } = await supabase
+        .from("admin_profiles")
+        .select("name, role")
+        .eq("id", user.id)
+        .single();
+
+      if (error) {
+        console.error("Admin profile query error:", error.message);
+      }
+
+      profile = data;
     }
-
-    const { data } = await supabase
-      .from("admin_profiles")
-      .select("name, role")
-      .eq("id", user.id)
-      .single();
-
-    profile = data;
   } catch (error) {
-    console.error("Admin layout auth error:", error);
+    console.error("Admin layout error:", error);
   }
 
-  if (!profile) {
+  // Not authenticated or no profile → render children only (login page)
+  if (!isAuthenticated || !profile) {
     return <>{children}</>;
   }
 
