@@ -12,7 +12,16 @@ import type { NextRequest } from "next/server";
 
 export const maxDuration = 60;
 
+// Vercel Cron calls GET
+export async function GET(request: NextRequest) {
+  return handleCrawl(request);
+}
+
 export async function POST(request: NextRequest) {
+  return handleCrawl(request);
+}
+
+async function handleCrawl(request: NextRequest) {
   const authHeader = request.headers.get("authorization");
   const cronSecret = process.env.CRON_SECRET;
   const serviceRoleKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
