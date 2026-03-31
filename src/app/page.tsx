@@ -2,6 +2,8 @@ import Link from "next/link";
 
 import { MapPin, Clock, Coins, ArrowRight } from "lucide-react";
 
+import { createClient } from "@/lib/supabase/server";
+import { CATEGORY_LABELS, CATEGORY_EMOJI } from "@/lib/constants";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -32,34 +34,14 @@ const STEPS = [
   { number: "03", title: "가볍게 출발!", description: "익선동을 자유롭게 즐기세요" },
 ] as const;
 
-const SAMPLE_ARTICLES = [
-  {
-    category: "맛집",
-    title: "익선동에서 꼭 가봐야 할 한식당 5곳",
-    description: "전통 한옥에서 즐기는 정갈한 한 끼",
-    image: "🍚",
-  },
-  {
-    category: "카페",
-    title: "한옥 카페 투어, 익선동 베스트 3",
-    description: "고즈넉한 분위기에서 즐기는 커피 한 잔",
-    image: "☕",
-  },
-  {
-    category: "코스추천",
-    title: "반나절 익선동 코스: 짐 맡기고 가볍게",
-    description: "놓다에서 시작하는 완벽한 동선",
-    image: "🗺️",
-  },
-  {
-    category: "문화",
-    title: "종로3가의 숨은 문화공간 탐방",
-    description: "오래된 골목 사이, 새로운 발견",
-    image: "🎨",
-  },
-] as const;
-
-export default function HomePage() {
+export default async function HomePage() {
+  const supabase = await createClient();
+  const { data: articles } = await supabase
+    .from("articles")
+    .select("id, title, slug, category, excerpt, published_at")
+    .eq("status", "published")
+    .order("published_at", { ascending: false })
+    .limit(4);
   return (
     <>
       <Header />
@@ -141,28 +123,27 @@ export default function HomePage() {
             </div>
 
             <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-              {SAMPLE_ARTICLES.map((article) => (
-                <Card
-                  key={article.title}
-                  className="group cursor-pointer border-none shadow-sm transition-all hover:-translate-y-1 hover:shadow-md"
-                >
-                  <CardContent className="p-0">
-                    <div className="flex h-40 items-center justify-center rounded-t-xl bg-muted text-5xl">
-                      {article.image}
-                    </div>
-                    <div className="p-4">
-                      <Badge variant="outline" className="text-xs">
-                        {article.category}
-                      </Badge>
-                      <h3 className="mt-2 font-heading text-sm font-semibold leading-snug group-hover:text-primary">
-                        {article.title}
-                      </h3>
-                      <p className="mt-1 text-xs text-muted-foreground">
-                        {article.description}
-                      </p>
-                    </div>
-                  </CardContent>
-                </Card>
+              {(articles ?? []).map((article) => (
+                <Link key={article.id} href={`/magazine/${article.slug}`}>
+                  <Card className="group cursor-pointer border-none shadow-sm transition-all hover:-translate-y-1 hover:shadow-md">
+                    <CardContent className="p-0">
+                      <div className="flex h-40 items-center justify-center rounded-t-xl bg-muted text-5xl">
+                        {CATEGORY_EMOJI[article.category] ?? "📄"}
+                      </div>
+                      <div className="p-4">
+                        <Badge variant="outline" className="text-xs">
+                          {CATEGORY_LABELS[article.category] ?? article.category}
+                        </Badge>
+                        <h3 className="mt-2 font-heading text-sm font-semibold leading-snug group-hover:text-primary">
+                          {article.title}
+                        </h3>
+                        <p className="mt-1 line-clamp-2 text-xs text-muted-foreground">
+                          {article.excerpt}
+                        </p>
+                      </div>
+                    </CardContent>
+                  </Card>
+                </Link>
               ))}
             </div>
 
