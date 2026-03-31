@@ -1,4 +1,5 @@
-import { redirect } from "next/navigation";
+import Link from "next/link";
+import { headers } from "next/headers";
 
 import { createClient } from "@/lib/supabase/server";
 
@@ -7,24 +8,37 @@ export default async function AdminLayout({
 }: {
   children: React.ReactNode;
 }) {
-  const supabase = await createClient();
-  const { data: { user } } = await supabase.auth.getUser();
+  const headersList = await headers();
+  const pathname = headersList.get("x-next-url") ?? headersList.get("x-pathname") ?? "";
+  const isLoginPage = pathname.includes("/admin/login");
 
-  const isLoginPage = false; // layout wraps all admin pages including login
-
-  if (!user) {
+  if (isLoginPage) {
     return <>{children}</>;
   }
 
-  const { data: profile } = await supabase
-    .from("admin_profiles")
-    .select("name, role")
-    .eq("id", user.id)
-    .single();
+  let profile: { name: string; role: string } | null = null;
+
+  try {
+    const supabase = await createClient();
+    const { data: { user } } = await supabase.auth.getUser();
+
+    if (!user) {
+      return <>{children}</>;
+    }
+
+    const { data } = await supabase
+      .from("admin_profiles")
+      .select("name, role")
+      .eq("id", user.id)
+      .single();
+
+    profile = data;
+  } catch (error) {
+    console.error("Admin layout auth error:", error);
+  }
 
   if (!profile) {
-    await supabase.auth.signOut();
-    redirect("/admin/login");
+    return <>{children}</>;
   }
 
   return (
@@ -41,11 +55,13 @@ function AdminSidebar({ name, role }: { name: string; role: string }) {
   return (
     <aside className="hidden w-64 flex-col border-r border-border bg-card md:flex">
       <div className="flex items-center gap-2 border-b border-border p-4">
-        <span className="text-2xl">🐶</span>
-        <div>
-          <p className="font-heading text-sm font-bold">놓다 관리자</p>
-          <p className="text-xs text-muted-foreground">익선동</p>
-        </div>
+        <Link href="/admin" className="flex items-center gap-2">
+          <span className="text-2xl">🐶</span>
+          <div>
+            <p className="font-heading text-sm font-bold">놓다 관리자</p>
+            <p className="text-xs text-muted-foreground">익선동</p>
+          </div>
+        </Link>
       </div>
 
       <nav className="flex-1 space-y-1 p-3">
@@ -61,6 +77,12 @@ function AdminSidebar({ name, role }: { name: string; role: string }) {
         <p className="text-xs text-muted-foreground">
           {role === "super_admin" ? "슈퍼 관리자" : "관리자"}
         </p>
+        <Link
+          href="/"
+          className="mt-2 block text-xs text-muted-foreground hover:text-primary"
+        >
+          ← 사이트로 돌아가기
+        </Link>
       </div>
     </aside>
   );
@@ -76,12 +98,12 @@ function SidebarLink({
   icon: string;
 }) {
   return (
-    <a
+    <Link
       href={href}
       className="flex items-center gap-3 rounded-lg px-3 py-2 text-sm text-muted-foreground transition-colors hover:bg-accent hover:text-foreground"
     >
       <span>{icon}</span>
       {label}
-    </a>
+    </Link>
   );
 }

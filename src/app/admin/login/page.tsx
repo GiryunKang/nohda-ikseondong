@@ -33,8 +33,7 @@ export default function AdminLoginPage() {
         return;
       }
 
-      router.push("/admin");
-      router.refresh();
+      window.location.href = "/admin";
     } catch {
       setError("로그인 중 오류가 발생했습니다.");
     } finally {
