@@ -2,6 +2,8 @@ import Link from "next/link";
 
 import { createClient } from "@/lib/supabase/server";
 
+import { LogoutButton } from "./logout-button";
+
 export default async function AdminLayout({
   children,
 }: {
@@ -74,12 +76,15 @@ function AdminSidebar({ name, role }: { name: string; role: string }) {
         <p className="text-xs text-muted-foreground">
           {role === "super_admin" ? "슈퍼 관리자" : "관리자"}
         </p>
-        <Link
-          href="/"
-          className="mt-2 block text-xs text-muted-foreground hover:text-primary"
-        >
-          ← 사이트로 돌아가기
-        </Link>
+        <div className="mt-2 flex items-center justify-between">
+          <Link
+            href="/"
+            className="text-xs text-muted-foreground hover:text-primary"
+          >
+            ← 사이트
+          </Link>
+          <LogoutButton />
+        </div>
       </div>
     </aside>
   );

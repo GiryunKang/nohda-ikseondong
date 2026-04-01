@@ -103,6 +103,76 @@ export default async function HomePage() {
           </div>
         </section>
 
+        {/* Locker Highlight */}
+        <section className="bg-primary/5 px-4 py-16 md:py-24">
+          <div className="mx-auto max-w-5xl">
+            <div className="grid items-center gap-8 md:grid-cols-2">
+              <div>
+                <Badge className="mb-3">무인 물품보관함</Badge>
+                <h2 className="font-heading text-2xl font-bold leading-tight md:text-3xl">
+                  여행 가방, 쇼핑백,
+                  <br />
+                  <span className="text-primary">놓다에 맡기세요</span>
+                </h2>
+                <p className="mt-4 leading-relaxed text-muted-foreground">
+                  익선동 바로 맞은편에 위치한 24시간 무인 보관함.
+                  무거운 짐 없이 가볍게 골목을 누비세요.
+                  소형부터 대형 캐리어까지, 사이즈별 보관함이 준비되어 있습니다.
+                </p>
+                <ul className="mt-4 space-y-2 text-sm">
+                  <li className="flex items-center gap-2">
+                    <span className="flex h-5 w-5 items-center justify-center rounded-full bg-primary text-xs text-primary-foreground">✓</span>
+                    종로3가역 4번 출구 도보 2분
+                  </li>
+                  <li className="flex items-center gap-2">
+                    <span className="flex h-5 w-5 items-center justify-center rounded-full bg-primary text-xs text-primary-foreground">✓</span>
+                    24시간 연중무휴 운영
+                  </li>
+                  <li className="flex items-center gap-2">
+                    <span className="flex h-5 w-5 items-center justify-center rounded-full bg-primary text-xs text-primary-foreground">✓</span>
+                    소형 · 중형 · 대형 다양한 사이즈
+                  </li>
+                  <li className="flex items-center gap-2">
+                    <span className="flex h-5 w-5 items-center justify-center rounded-full bg-primary text-xs text-primary-foreground">✓</span>
+                    스마트폰으로 간편 이용
+                  </li>
+                </ul>
+                <div className="mt-6 flex gap-3">
+                  <Button size="lg" render={<a href="https://놓다.com" target="_blank" rel="noopener noreferrer" />}>
+                    지금 보관함 이용하기
+                  </Button>
+                  <Button variant="outline" size="lg" render={<Link href="/about" />}>
+                    자세히 보기
+                  </Button>
+                </div>
+              </div>
+              <div className="flex flex-col items-center gap-4 rounded-2xl bg-card p-8 shadow-sm">
+                <span className="text-7xl">🐶</span>
+                <div className="grid w-full grid-cols-3 gap-3 text-center">
+                  <div className="rounded-xl bg-accent p-4">
+                    <span className="text-2xl">🎒</span>
+                    <p className="mt-1 text-xs font-medium">소형</p>
+                    <p className="text-xs text-muted-foreground">배낭, 작은 가방</p>
+                  </div>
+                  <div className="rounded-xl bg-accent p-4">
+                    <span className="text-2xl">🧳</span>
+                    <p className="mt-1 text-xs font-medium">중형</p>
+                    <p className="text-xs text-muted-foreground">20인치 캐리어</p>
+                  </div>
+                  <div className="rounded-xl bg-accent p-4">
+                    <span className="text-2xl">🛄</span>
+                    <p className="mt-1 text-xs font-medium">대형</p>
+                    <p className="text-xs text-muted-foreground">대형 캐리어</p>
+                  </div>
+                </div>
+                <p className="text-sm text-muted-foreground">
+                  놓다.com에서 빈 보관함을 확인하세요
+                </p>
+              </div>
+            </div>
+          </div>
+        </section>
+
         {/* Magazine Preview */}
         <section className="bg-card px-4 py-16 md:py-24">
           <div className="mx-auto max-w-5xl">

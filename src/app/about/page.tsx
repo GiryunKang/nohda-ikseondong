@@ -29,13 +29,23 @@ export default function AboutPage() {
         {/* Hero */}
         <section className="bg-gradient-to-b from-accent to-background px-4 py-16 md:py-24">
           <div className="mx-auto max-w-3xl text-center">
-            <span className="text-5xl">🐶</span>
+            <span className="text-6xl md:text-7xl">🐶</span>
             <h1 className="mt-4 font-heading text-3xl font-extrabold md:text-5xl">
               놓다
             </h1>
-            <p className="mt-2 text-lg text-muted-foreground">
-              익선동 바로 맞은편, 24시간 무인 물품보관함
+            <p className="mt-2 text-xl font-medium text-primary">
+              무인 물품보관함
             </p>
+            <p className="mt-2 text-muted-foreground">
+              익선동 바로 맞은편 · 종로3가역 4번 출구 도보 2분
+              <br />
+              24시간 연중무휴 · 소형부터 대형 캐리어까지
+            </p>
+            <div className="mt-6">
+              <Button size="lg" className="text-base" render={<a href="https://놓다.com" target="_blank" rel="noopener noreferrer" />}>
+                지금 보관함 이용하기
+              </Button>
+            </div>
           </div>
         </section>
 
