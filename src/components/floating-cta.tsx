@@ -4,7 +4,10 @@ import { useState, useEffect } from "react";
 
 import { X } from "lucide-react";
 
+import { useI18n } from "@/lib/i18n/context";
+
 export function FloatingCta() {
+  const { t } = useI18n();
   const [visible, setVisible] = useState(false);
   const [dismissed, setDismissed] = useState(false);
 
@@ -25,10 +28,10 @@ export function FloatingCta() {
         <span className="text-2xl">🐶</span>
         <div className="flex-1 min-w-0">
           <p className="text-sm font-semibold text-primary-foreground">
-            짐은 놓다에 맡기세요!
+            {t.floating.title}
           </p>
           <p className="text-xs text-primary-foreground/80">
-            익선동 맞은편 · 24시간 무인 보관함
+            {t.floating.subtitle}
           </p>
         </div>
         <a
@@ -37,7 +40,7 @@ export function FloatingCta() {
           rel="noopener noreferrer"
           className="shrink-0 rounded-xl bg-white px-4 py-2 text-sm font-semibold text-primary transition-colors hover:bg-white/90"
         >
-          이용하기
+          {t.floating.button}
         </a>
         <button
           onClick={() => setDismissed(true)}

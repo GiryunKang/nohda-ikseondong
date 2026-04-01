@@ -4,6 +4,7 @@ import { MapPin, Clock, Coins, ArrowRight } from "lucide-react";
 
 import { createClient } from "@/lib/supabase/server";
 import { CATEGORY_LABELS } from "@/lib/constants";
+import { getServerDictionary } from "@/lib/i18n/server";
 import { ArticleCover } from "@/components/article-cover";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
@@ -11,32 +12,21 @@ import { Badge } from "@/components/ui/badge";
 import { Header } from "@/components/layout/header";
 import { Footer } from "@/components/layout/footer";
 
-const FEATURES = [
-  {
-    icon: MapPin,
-    title: "익선동 바로 맞은편",
-    description: "종로3가역 4번 출구에서 도보 2분",
-  },
-  {
-    icon: Clock,
-    title: "24시간 무인 보관",
-    description: "언제든 맡기고 언제든 찾아가세요",
-  },
-  {
-    icon: Coins,
-    title: "합리적 가격",
-    description: "소형부터 대형까지 다양한 사이즈",
-  },
-] as const;
-
-const STEPS = [
-  { number: "01", title: "보관함 선택", description: "사이즈에 맞는 보관함을 골라주세요" },
-  { number: "02", title: "짐 넣기", description: "문이 열리면 짐을 안전하게 넣어주세요" },
-  { number: "03", title: "가볍게 출발!", description: "익선동을 자유롭게 즐기세요" },
-] as const;
-
 export default async function HomePage() {
+  const { t } = await getServerDictionary();
   const supabase = await createClient();
+
+  const FEATURES = [
+    { icon: MapPin, title: t.features.location, description: t.features.locationDesc },
+    { icon: Clock, title: t.features.hours, description: t.features.hoursDesc },
+    { icon: Coins, title: t.features.price, description: t.features.priceDesc },
+  ];
+
+  const STEPS = [
+    { number: "01", title: t.steps.step1, description: t.steps.step1Desc },
+    { number: "02", title: t.steps.step2, description: t.steps.step2Desc },
+    { number: "03", title: t.steps.step3, description: t.steps.step3Desc },
+  ];
   const { data: articles } = await supabase
     .from("articles")
     .select("id, title, slug, category, excerpt, cover_image_url, published_at")
@@ -53,21 +43,21 @@ export default async function HomePage() {
           <div className="mx-auto max-w-5xl text-center">
             <span className="text-6xl md:text-8xl">🐶</span>
             <h1 className="mt-6 font-heading text-4xl font-extrabold leading-tight text-foreground md:text-6xl">
-              익선동,
+              {t.hero.title1}
               <br />
-              <span className="text-primary">가볍게</span> 즐기세요
+              <span className="text-primary">{t.hero.title2}</span> {t.hero.title3}
             </h1>
             <p className="mx-auto mt-4 max-w-lg text-lg text-muted-foreground">
-              짐은 놓다에 맡기고, 익선동을 자유롭게.
+              {t.hero.subtitle}
               <br />
-              맛집, 카페, 문화공간 추천까지 한 곳에서.
+              {t.hero.subtitle2}
             </p>
             <div className="mt-8 flex flex-col items-center gap-3 sm:flex-row sm:justify-center">
               <Button size="lg" className="text-base" render={<a href="https://놓다.com" target="_blank" rel="noopener noreferrer" />}>
-                보관함 이용하기
+                {t.hero.ctaLocker}
               </Button>
               <Button variant="outline" size="lg" className="text-base" render={<Link href="/magazine" />}>
-                익선동 가이드 보기
+                {t.hero.ctaGuide}
                 <ArrowRight className="ml-2 h-4 w-4" />
               </Button>
             </div>
@@ -78,7 +68,9 @@ export default async function HomePage() {
         <section className="px-4 py-16 md:py-24">
           <div className="mx-auto max-w-5xl">
             <h2 className="text-center font-heading text-2xl font-bold md:text-3xl">
-              왜 <span className="text-primary">놓다</span>일까요?
+              {t.features.title.replace("{brand}", "")}
+              <span className="text-primary">놓다</span>
+              {t.features.title.includes("?") ? "?" : ""}
             </h2>
             <div className="mt-10 grid gap-6 md:grid-cols-3">
               {FEATURES.map((feature) => (
@@ -108,41 +100,29 @@ export default async function HomePage() {
           <div className="mx-auto max-w-5xl">
             <div className="grid items-center gap-8 md:grid-cols-2">
               <div>
-                <Badge className="mb-3">무인 물품보관함</Badge>
+                <Badge className="mb-3">{t.locker.badge}</Badge>
                 <h2 className="font-heading text-2xl font-bold leading-tight md:text-3xl">
-                  여행 가방, 쇼핑백,
+                  {t.locker.title1}
                   <br />
-                  <span className="text-primary">놓다에 맡기세요</span>
+                  <span className="text-primary">{t.locker.title2}</span>
                 </h2>
                 <p className="mt-4 leading-relaxed text-muted-foreground">
-                  익선동 바로 맞은편에 위치한 24시간 무인 보관함.
-                  무거운 짐 없이 가볍게 골목을 누비세요.
-                  소형부터 대형 캐리어까지, 사이즈별 보관함이 준비되어 있습니다.
+                  {t.locker.description}
                 </p>
                 <ul className="mt-4 space-y-2 text-sm">
-                  <li className="flex items-center gap-2">
-                    <span className="flex h-5 w-5 items-center justify-center rounded-full bg-primary text-xs text-primary-foreground">✓</span>
-                    종로3가역 4번 출구 도보 2분
-                  </li>
-                  <li className="flex items-center gap-2">
-                    <span className="flex h-5 w-5 items-center justify-center rounded-full bg-primary text-xs text-primary-foreground">✓</span>
-                    24시간 연중무휴 운영
-                  </li>
-                  <li className="flex items-center gap-2">
-                    <span className="flex h-5 w-5 items-center justify-center rounded-full bg-primary text-xs text-primary-foreground">✓</span>
-                    소형 · 중형 · 대형 다양한 사이즈
-                  </li>
-                  <li className="flex items-center gap-2">
-                    <span className="flex h-5 w-5 items-center justify-center rounded-full bg-primary text-xs text-primary-foreground">✓</span>
-                    스마트폰으로 간편 이용
-                  </li>
+                  {[t.locker.check1, t.locker.check2, t.locker.check3, t.locker.check4].map((check) => (
+                    <li key={check} className="flex items-center gap-2">
+                      <span className="flex h-5 w-5 items-center justify-center rounded-full bg-primary text-xs text-primary-foreground">✓</span>
+                      {check}
+                    </li>
+                  ))}
                 </ul>
                 <div className="mt-6 flex gap-3">
                   <Button size="lg" render={<a href="https://놓다.com" target="_blank" rel="noopener noreferrer" />}>
-                    지금 보관함 이용하기
+                    {t.locker.ctaUse}
                   </Button>
                   <Button variant="outline" size="lg" render={<Link href="/about" />}>
-                    자세히 보기
+                    {t.locker.ctaDetail}
                   </Button>
                 </div>
               </div>
@@ -151,22 +131,22 @@ export default async function HomePage() {
                 <div className="grid w-full grid-cols-3 gap-3 text-center">
                   <div className="rounded-xl bg-accent p-4">
                     <span className="text-2xl">🎒</span>
-                    <p className="mt-1 text-xs font-medium">소형</p>
-                    <p className="text-xs text-muted-foreground">배낭, 작은 가방</p>
+                    <p className="mt-1 text-xs font-medium">{t.locker.small}</p>
+                    <p className="text-xs text-muted-foreground">{t.locker.smallDesc}</p>
                   </div>
                   <div className="rounded-xl bg-accent p-4">
                     <span className="text-2xl">🧳</span>
-                    <p className="mt-1 text-xs font-medium">중형</p>
-                    <p className="text-xs text-muted-foreground">20인치 캐리어</p>
+                    <p className="mt-1 text-xs font-medium">{t.locker.medium}</p>
+                    <p className="text-xs text-muted-foreground">{t.locker.mediumDesc}</p>
                   </div>
                   <div className="rounded-xl bg-accent p-4">
                     <span className="text-2xl">🛄</span>
-                    <p className="mt-1 text-xs font-medium">대형</p>
-                    <p className="text-xs text-muted-foreground">대형 캐리어</p>
+                    <p className="mt-1 text-xs font-medium">{t.locker.large}</p>
+                    <p className="text-xs text-muted-foreground">{t.locker.largeDesc}</p>
                   </div>
                 </div>
                 <p className="text-sm text-muted-foreground">
-                  놓다.com에서 빈 보관함을 확인하세요
+                  {t.locker.checkAvail}
                 </p>
               </div>
             </div>
@@ -179,17 +159,17 @@ export default async function HomePage() {
             <div className="flex items-end justify-between">
               <div>
                 <Badge variant="secondary" className="mb-2">
-                  매거진
+                  {t.nav.magazine}
                 </Badge>
                 <h2 className="font-heading text-2xl font-bold md:text-3xl">
-                  이번 주 익선동 픽
+                  {t.magazine.weeklyPick}
                 </h2>
               </div>
               <Link
                 href="/magazine"
                 className="hidden text-sm font-medium text-primary hover:underline sm:block"
               >
-                전체보기 →
+                {t.magazine.viewAll}
               </Link>
             </div>
 
@@ -225,7 +205,7 @@ export default async function HomePage() {
                 href="/magazine"
                 className="text-sm font-medium text-primary hover:underline"
               >
-                전체보기 →
+                {t.magazine.viewAll}
               </Link>
             </div>
           </div>
@@ -235,10 +215,10 @@ export default async function HomePage() {
         <section className="px-4 py-16 md:py-24">
           <div className="mx-auto max-w-5xl">
             <h2 className="text-center font-heading text-2xl font-bold md:text-3xl">
-              이용 방법
+              {t.steps.title}
             </h2>
             <p className="mt-2 text-center text-muted-foreground">
-              3단계로 간단하게
+              {t.steps.subtitle}
             </p>
 
             <div className="mt-10 grid gap-8 md:grid-cols-3">
@@ -262,7 +242,7 @@ export default async function HomePage() {
 
             <div className="mt-12 text-center">
               <Button size="lg" render={<a href="https://놓다.com" target="_blank" rel="noopener noreferrer" />}>
-                지금 보관함 이용하기
+                {t.steps.cta}
               </Button>
             </div>
           </div>
@@ -275,12 +255,12 @@ export default async function HomePage() {
               <CardContent className="flex flex-col items-center gap-4 p-8 text-center md:p-12">
                 <span className="text-4xl">🐶</span>
                 <h2 className="font-heading text-2xl font-bold text-primary-foreground md:text-3xl">
-                  짐이 많으신가요?
+                  {t.cta.title}
                 </h2>
                 <p className="max-w-md text-primary-foreground/90">
-                  놓다 보관함에 맡기고 가볍게 익선동을 즐기세요.
+                  {t.cta.description}
                   <br />
-                  익선동 바로 맞은편, 종로3가역 4번 출구 도보 2분.
+                  {t.cta.location}
                 </p>
                 <Button
                   size="lg"
@@ -288,7 +268,7 @@ export default async function HomePage() {
                   className="mt-2"
                   render={<a href="https://놓다.com" target="_blank" rel="noopener noreferrer" />}
                 >
-                  보관함 이용하기
+                  {t.cta.button}
                 </Button>
               </CardContent>
             </Card>

@@ -2,6 +2,8 @@ import type { Metadata } from "next";
 import { Plus_Jakarta_Sans, Inter } from "next/font/google";
 import "./globals.css";
 
+import { getLocale } from "@/lib/i18n/server";
+import { I18nProvider } from "@/lib/i18n/context";
 import { FloatingCta } from "@/components/floating-cta";
 
 const plusJakarta = Plus_Jakarta_Sans({
@@ -19,7 +21,7 @@ export const metadata: Metadata = {
   title: "놓다 익선동 | 물품보관함 & 익선동 가이드",
   description:
     "익선동 바로 맞은편, 무인 물품보관함 놓다. 짐은 맡기고 익선동을 가볍게 즐기세요. 맛집, 카페, 문화공간 추천까지.",
-  keywords: ["익선동", "물품보관함", "놓다", "종로", "짐보관", "서울 관광"],
+  keywords: ["익선동", "물품보관함", "놓다", "종로", "짐보관", "서울 관광", "luggage storage", "Ikseon-dong"],
   openGraph: {
     title: "놓다 익선동 | 물품보관함 & 익선동 가이드",
     description: "짐은 놓다에 맡기고, 익선동을 가볍게 즐기세요.",
@@ -28,19 +30,23 @@ export const metadata: Metadata = {
   },
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const locale = await getLocale();
+
   return (
     <html
-      lang="ko"
+      lang={locale}
       className={`${plusJakarta.variable} ${inter.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col font-sans">
-        {children}
-        <FloatingCta />
+        <I18nProvider locale={locale}>
+          {children}
+          <FloatingCta />
+        </I18nProvider>
       </body>
     </html>
   );
