@@ -17,8 +17,8 @@ export const metadata: Metadata = {
 
 const LOCKER_SIZES = [
   { size: "소형", description: "배낭, 작은 가방", icon: "🎒" },
-  { size: "중형", description: "캐리어 (20인치 이하)", icon: "🧳" },
-  { size: "대형", description: "대형 캐리어, 큰 짐", icon: "🛄" },
+  { size: "중형", description: "18인치 이하 캐리어", icon: "🧳" },
+  { size: "대형", description: "28인치 캐리어까지", icon: "🛄" },
 ] as const;
 
 export default function AboutPage() {
