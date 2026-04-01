@@ -37,9 +37,9 @@ export default function AboutPage() {
               무인 물품보관함
             </p>
             <p className="mt-2 text-muted-foreground">
-              익선동 바로 맞은편 · 종로3가역 4번 출구 도보 2분
+              익선동 바로 맞은편 · 종로3가역 4번 출구 도보 1분 (35m)
               <br />
-              24시간 연중무휴 · 소형부터 대형 캐리어까지
+              24시간 연중무휴 · 약 220개 보관함 · 간편 결제
             </p>
             <div className="mt-6">
               <Button size="lg" className="text-base" render={<a href="https://놓다.com" target="_blank" rel="noopener noreferrer" />}>
@@ -74,7 +74,7 @@ export default function AboutPage() {
                   <div className="flex items-center gap-3">
                     <span className="text-lg">🚇</span>
                     <p>
-                      <strong>종로3가역</strong> 4번 출구에서 도보 2분
+                      <strong>종로3가역</strong> 4번 출구에서 도보 1분 (35m)
                     </p>
                   </div>
                   <div className="flex items-center gap-3">
@@ -206,9 +206,13 @@ export default function AboutPage() {
                     <h3 className="font-heading font-semibold">고객센터</h3>
                   </div>
                   <p className="mt-2 text-sm text-muted-foreground">
-                    스마트큐브 A/S센터
+                    스마트큐브 A/S센터: 02-1661-5820
                     <br />
-                    02-1661-5820
+                    이메일: smtlocker@naver.com
+                    <br />
+                    <a href="https://pf.kakao.com/_xjnxcMG" target="_blank" rel="noopener noreferrer" className="text-primary hover:underline">
+                      카카오톡 채널 →
+                    </a>
                   </p>
                 </CardContent>
               </Card>
