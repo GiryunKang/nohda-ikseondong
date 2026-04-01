@@ -46,6 +46,8 @@ export default function AIWriterPage() {
   const [article, setArticle] = useState<GeneratedArticle | null>(null);
   const [error, setError] = useState("");
   const [saveResult, setSaveResult] = useState<string | null>(null);
+  const [coverSvg, setCoverSvg] = useState<string | null>(null);
+  const [generatingSvg, setGeneratingSvg] = useState(false);
 
   const handleGenerate = async () => {
     if (!topic.trim()) return;
@@ -53,6 +55,7 @@ export default function AIWriterPage() {
     setError("");
     setArticle(null);
     setSaveResult(null);
+    setCoverSvg(null);
 
     try {
       const response = await fetch("/api/generate", {
@@ -73,6 +76,26 @@ export default function AIWriterPage() {
       setError("네트워크 오류가 발생했습니다.");
     } finally {
       setLoading(false);
+    }
+  };
+
+  const handleGenerateSvg = async () => {
+    setGeneratingSvg(true);
+    try {
+      const response = await fetch("/api/generate-svg", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ category }),
+      });
+
+      const data = await response.json();
+      if (data.success) {
+        setCoverSvg(data.svg);
+      }
+    } catch {
+      // SVG generation failed silently
+    } finally {
+      setGeneratingSvg(false);
     }
   };
 
@@ -178,6 +201,25 @@ export default function AIWriterPage() {
               >
                 {loading ? "생성 중..." : "✨ AI 초안 생성"}
               </Button>
+
+              <Button
+                className="w-full"
+                variant="outline"
+                onClick={handleGenerateSvg}
+                disabled={generatingSvg}
+              >
+                {generatingSvg ? "일러스트 생성 중..." : "🎨 커버 일러스트 생성"}
+              </Button>
+
+              {coverSvg && (
+                <div className="rounded-lg border bg-white p-2">
+                  <p className="mb-2 text-xs text-muted-foreground">커버 일러스트</p>
+                  <div
+                    className="overflow-hidden rounded"
+                    dangerouslySetInnerHTML={{ __html: coverSvg }}
+                  />
+                </div>
+              )}
             </CardContent>
           </Card>
 

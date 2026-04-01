@@ -3,7 +3,8 @@ import Link from "next/link";
 import { MapPin, Clock, Coins, ArrowRight } from "lucide-react";
 
 import { createClient } from "@/lib/supabase/server";
-import { CATEGORY_LABELS, CATEGORY_EMOJI } from "@/lib/constants";
+import { CATEGORY_LABELS } from "@/lib/constants";
+import { ArticleCover } from "@/components/article-cover";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -38,7 +39,7 @@ export default async function HomePage() {
   const supabase = await createClient();
   const { data: articles } = await supabase
     .from("articles")
-    .select("id, title, slug, category, excerpt, published_at")
+    .select("id, title, slug, category, excerpt, cover_image_url, published_at")
     .eq("status", "published")
     .order("published_at", { ascending: false })
     .limit(4);
@@ -127,9 +128,11 @@ export default async function HomePage() {
                 <Link key={article.id} href={`/magazine/${article.slug}`}>
                   <Card className="group cursor-pointer border-none shadow-sm transition-all hover:-translate-y-1 hover:shadow-md">
                     <CardContent className="p-0">
-                      <div className="flex h-40 items-center justify-center rounded-t-xl bg-muted text-5xl">
-                        {CATEGORY_EMOJI[article.category] ?? "📄"}
-                      </div>
+                      <ArticleCover
+                        category={article.category}
+                        coverImageUrl={article.cover_image_url}
+                        size="md"
+                      />
                       <div className="p-4">
                         <Badge variant="outline" className="text-xs">
                           {CATEGORY_LABELS[article.category] ?? article.category}

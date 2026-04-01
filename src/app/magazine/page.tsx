@@ -1,7 +1,8 @@
 import Link from "next/link";
 
 import { createClient } from "@/lib/supabase/server";
-import { CATEGORY_LABELS, CATEGORY_EMOJI } from "@/lib/constants";
+import { CATEGORY_LABELS } from "@/lib/constants";
+import { ArticleCover } from "@/components/article-cover";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Header } from "@/components/layout/header";
@@ -96,9 +97,11 @@ export default async function MagazinePage({ searchParams }: MagazinePageProps) 
               <Link href={`/magazine/${featured.slug}`}>
                 <Card className="group mb-8 overflow-hidden border-none shadow-sm transition-shadow hover:shadow-md">
                   <CardContent className="p-0">
-                    <div className="flex h-48 items-center justify-center bg-muted text-6xl md:h-64">
-                      {CATEGORY_EMOJI[featured.category] ?? "📄"}
-                    </div>
+                    <ArticleCover
+                      category={featured.category}
+                      coverImageUrl={featured.cover_image_url}
+                      size="lg"
+                    />
                     <div className="p-6">
                       <Badge variant="secondary">
                         {CATEGORY_LABELS[featured.category] ?? featured.category}
@@ -129,9 +132,11 @@ export default async function MagazinePage({ searchParams }: MagazinePageProps) 
                   <Link key={article.id} href={`/magazine/${article.slug}`}>
                     <Card className="group h-full border-none shadow-sm transition-all hover:-translate-y-1 hover:shadow-md">
                       <CardContent className="p-0">
-                        <div className="flex h-40 items-center justify-center rounded-t-xl bg-muted text-5xl">
-                          {CATEGORY_EMOJI[article.category] ?? "📄"}
-                        </div>
+                        <ArticleCover
+                          category={article.category}
+                          coverImageUrl={article.cover_image_url}
+                          size="md"
+                        />
                         <div className="p-4">
                           <Badge variant="outline" className="text-xs">
                             {CATEGORY_LABELS[article.category] ??
