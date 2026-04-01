@@ -18,13 +18,13 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
-  title: "놓다 익선동 | 물품보관함 & 익선동 가이드",
+  title: "익선동 가이드 | 맛집, 카페, 문화 · 놓다",
   description:
-    "익선동 바로 맞은편, 무인 물품보관함 놓다. 짐은 맡기고 익선동을 가볍게 즐기세요. 맛집, 카페, 문화공간 추천까지.",
-  keywords: ["익선동", "물품보관함", "놓다", "종로", "짐보관", "서울 관광", "luggage storage", "Ikseon-dong"],
+    "익선동과 종로3가의 맛집, 카페, 문화공간, 숨은 이야기. 물품보관함 놓다와 함께 가볍게 즐기는 익선동 여행 가이드.",
+  keywords: ["익선동", "익선동 맛집", "익선동 카페", "종로", "한옥마을", "서울 관광", "물품보관함", "놓다", "luggage storage", "Ikseon-dong"],
   openGraph: {
-    title: "놓다 익선동 | 물품보관함 & 익선동 가이드",
-    description: "짐은 놓다에 맡기고, 익선동을 가볍게 즐기세요.",
+    title: "익선동 가이드 | 맛집, 카페, 문화 · 놓다",
+    description: "익선동과 종로3가의 맛집, 카페, 문화공간. 물품보관함 놓다와 함께 가볍게.",
     locale: "ko_KR",
     type: "website",
   },

@@ -3,10 +3,10 @@ import type { Locale } from "./config";
 const dictionaries = {
   ko: {
     nav: {
-      home: "홈",
-      magazine: "매거진",
-      about: "놓다 소개",
-      useLocker: "보관함 이용하기",
+      home: "익선동",
+      magazine: "가이드",
+      about: "짐 맡기기",
+      useLocker: "놓다.com",
     },
     hero: {
       title1: "익선동,",
@@ -127,10 +127,10 @@ const dictionaries = {
   },
   en: {
     nav: {
-      home: "Home",
-      magazine: "Magazine",
-      about: "About Nohda",
-      useLocker: "Use Locker",
+      home: "Ikseon-dong",
+      magazine: "Guide",
+      about: "Storage",
+      useLocker: "nohda.com",
     },
     hero: {
       title1: "Ikseon-dong,",
@@ -251,10 +251,10 @@ const dictionaries = {
   },
   zh: {
     nav: {
-      home: "首页",
-      magazine: "杂志",
-      about: "关于놓다",
-      useLocker: "使用储物柜",
+      home: "益善洞",
+      magazine: "攻略",
+      about: "寄存行李",
+      useLocker: "nohda.com",
     },
     hero: {
       title1: "益善洞，",
@@ -375,10 +375,10 @@ const dictionaries = {
   },
   ja: {
     nav: {
-      home: "ホーム",
-      magazine: "マガジン",
-      about: "놓다について",
-      useLocker: "ロッカーを利用",
+      home: "益善洞",
+      magazine: "ガイド",
+      about: "荷物預け",
+      useLocker: "nohda.com",
     },
     hero: {
       title1: "益善洞を、",
