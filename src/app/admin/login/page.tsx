@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import Image from "next/image";
 
 import { createClient } from "@/lib/supabase/client";
 import { Button } from "@/components/ui/button";
@@ -46,7 +47,7 @@ export default function AdminLoginPage() {
       <Card className="w-full max-w-sm border shadow-sm">
         <CardContent className="p-6">
           <div className="mb-6 text-center">
-            <span className="text-4xl">🐶</span>
+            <Image src="/logo-transparent-vertical.png" alt="놓다" width={80} height={80} className="mx-auto h-16 w-auto" />
             <h1 className="mt-2 font-heading text-xl font-bold">놓다 관리자</h1>
             <p className="mt-1 text-sm text-muted-foreground">
               관리자 계정으로 로그인하세요

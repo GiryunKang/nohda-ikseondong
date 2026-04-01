@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from "react";
 
+import Image from "next/image";
 import { X } from "lucide-react";
 
 import { useI18n } from "@/lib/i18n/context";
@@ -25,7 +26,7 @@ export function FloatingCta() {
   return (
     <div className="fixed bottom-4 left-4 right-4 z-50 md:left-auto md:right-6 md:w-auto">
       <div className="flex items-center gap-3 rounded-2xl bg-primary px-4 py-3 shadow-lg shadow-primary/25">
-        <span className="text-2xl">🐶</span>
+        <Image src="/logo-icon.png" alt="놓다" width={36} height={36} className="h-9 w-auto brightness-0 invert" />
         <div className="flex-1 min-w-0">
           <p className="text-sm font-semibold text-primary-foreground">
             {t.floating.title}

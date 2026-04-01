@@ -1,5 +1,7 @@
 import Link from "next/link";
 
+import Image from "next/image";
+
 import { MapPin, Clock, Coins, ArrowRight } from "lucide-react";
 
 import { createClient } from "@/lib/supabase/server";
@@ -41,7 +43,14 @@ export default async function HomePage() {
         {/* Hero */}
         <section className="relative overflow-hidden bg-gradient-to-b from-accent to-background px-4 py-20 md:py-32">
           <div className="mx-auto max-w-5xl text-center">
-            <span className="text-6xl md:text-8xl">🐶</span>
+            <Image
+              src="/logo-transparent-vertical.png"
+              alt="놓다 물품보관함"
+              width={180}
+              height={180}
+              className="mx-auto h-32 w-auto md:h-44"
+              priority
+            />
             <h1 className="mt-6 font-heading text-4xl font-extrabold leading-tight text-foreground md:text-6xl">
               {t.hero.title1}
               <br />
@@ -127,7 +136,13 @@ export default async function HomePage() {
                 </div>
               </div>
               <div className="flex flex-col items-center gap-4 rounded-2xl bg-card p-8 shadow-sm">
-                <span className="text-7xl">🐶</span>
+                <Image
+                  src="/logo-transparent-vertical.png"
+                  alt="놓다"
+                  width={140}
+                  height={140}
+                  className="h-28 w-auto"
+                />
                 <div className="grid w-full grid-cols-3 gap-3 text-center">
                   <div className="rounded-xl bg-accent p-4">
                     <span className="text-2xl">🎒</span>
@@ -253,7 +268,13 @@ export default async function HomePage() {
           <div className="mx-auto max-w-5xl">
             <Card className="border-none bg-primary">
               <CardContent className="flex flex-col items-center gap-4 p-8 text-center md:p-12">
-                <span className="text-4xl">🐶</span>
+                <Image
+                  src="/logo-icon.png"
+                  alt="놓다"
+                  width={64}
+                  height={64}
+                  className="h-16 w-auto brightness-0 invert"
+                />
                 <h2 className="font-heading text-2xl font-bold text-primary-foreground md:text-3xl">
                   {t.cta.title}
                 </h2>

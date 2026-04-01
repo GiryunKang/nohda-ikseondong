@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import Link from "next/link";
+import Image from "next/image";
 
 import { Menu, X } from "lucide-react";
 
@@ -23,12 +24,16 @@ export function Header() {
   return (
     <header className="sticky top-0 z-50 w-full border-b border-border/60 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/80">
       <div className="mx-auto flex h-16 max-w-5xl items-center justify-between px-4">
-        <Link href="/" className="flex items-center gap-2">
-          <span className="text-2xl">🐶</span>
-          <span className="font-heading text-xl font-bold text-foreground">
-            놓다
-          </span>
-          <span className="text-sm text-muted-foreground">익선동</span>
+        <Link href="/" className="flex items-center gap-1">
+          <Image
+            src="/logo-transparent-horizontal.png"
+            alt="놓다 물품보관함"
+            width={120}
+            height={40}
+            className="h-9 w-auto"
+            priority
+          />
+          <span className="text-xs text-muted-foreground">익선동</span>
         </Link>
 
         <nav className="hidden items-center gap-4 md:flex">

@@ -334,7 +334,7 @@ export default function AIWriterPage() {
             <Card className="border shadow-sm">
               <CardContent className="flex items-center justify-center p-16">
                 <div className="text-center text-muted-foreground">
-                  <span className="text-5xl">🐶</span>
+                  <span className="text-4xl">🐶</span>
                   <p className="mt-4">
                     주제를 입력하고 "AI 초안 생성"을 눌러주세요
                   </p>

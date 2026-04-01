@@ -1,3 +1,4 @@
+import Image from "next/image";
 import { MapPin, Clock, Phone, ExternalLink, Package } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
@@ -29,7 +30,14 @@ export default function AboutPage() {
         {/* Hero */}
         <section className="bg-gradient-to-b from-accent to-background px-4 py-16 md:py-24">
           <div className="mx-auto max-w-3xl text-center">
-            <span className="text-6xl md:text-7xl">🐶</span>
+            <Image
+              src="/logo-transparent-vertical.png"
+              alt="놓다 물품보관함"
+              width={160}
+              height={160}
+              className="mx-auto h-28 w-auto md:h-36"
+              priority
+            />
             <h1 className="mt-4 font-heading text-3xl font-extrabold md:text-5xl">
               놓다
             </h1>

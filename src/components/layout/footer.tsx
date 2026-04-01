@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 
 import { useI18n } from "@/lib/i18n/context";
 import { Separator } from "@/components/ui/separator";
@@ -13,10 +14,15 @@ export function Footer() {
       <div className="mx-auto max-w-5xl px-4 py-12">
         <div className="grid gap-8 md:grid-cols-3">
           <div>
-            <div className="flex items-center gap-2">
-              <span className="text-2xl">🐶</span>
-              <span className="font-heading text-lg font-bold">놓다</span>
-              <span className="text-sm text-muted-foreground">익선동</span>
+            <div className="flex items-center gap-1">
+              <Image
+                src="/logo-transparent-horizontal.png"
+                alt="놓다 물품보관함"
+                width={100}
+                height={34}
+                className="h-8 w-auto"
+              />
+              <span className="text-xs text-muted-foreground">익선동</span>
             </div>
             <p className="mt-3 text-sm leading-relaxed text-muted-foreground">
               {t.footer.description}

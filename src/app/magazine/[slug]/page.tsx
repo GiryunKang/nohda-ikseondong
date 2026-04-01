@@ -1,5 +1,6 @@
 import { notFound } from "next/navigation";
 import Link from "next/link";
+import Image from "next/image";
 
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
@@ -146,7 +147,7 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
             {/* CTA */}
             <Card className="mt-8 border-none bg-primary">
               <CardContent className="flex flex-col items-center gap-3 p-6 text-center md:p-8">
-                <span className="text-3xl">🐶</span>
+                <Image src="/logo-icon.png" alt="놓다" width={48} height={48} className="h-12 w-auto brightness-0 invert" />
                 <p className="font-heading text-lg font-bold text-primary-foreground">
                   짐이 많다면? 놓다 보관함에 맡기세요!
                 </p>

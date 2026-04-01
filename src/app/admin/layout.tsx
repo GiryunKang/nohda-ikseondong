@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 
 import { createClient } from "@/lib/supabase/server";
 
@@ -55,7 +56,7 @@ function AdminSidebar({ name, role }: { name: string; role: string }) {
     <aside className="hidden w-64 flex-col border-r border-border bg-card md:flex">
       <div className="flex items-center gap-2 border-b border-border p-4">
         <Link href="/admin" className="flex items-center gap-2">
-          <span className="text-2xl">🐶</span>
+          <Image src="/logo-icon.png" alt="놓다" width={32} height={32} className="h-8 w-auto" />
           <div>
             <p className="font-heading text-sm font-bold">놓다 관리자</p>
             <p className="text-xs text-muted-foreground">익선동</p>
