@@ -1,0 +1,62 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 300" fill="none">
+  <!-- Background -->
+  <rect width="400" height="300" fill="#F7F2ED"/>
+
+  <!-- Scroll / canvas backdrop -->
+  <rect x="80" y="50" width="240" height="200" rx="4" fill="#EDE5DA"/>
+  <rect x="80" y="50" width="240" height="10" rx="4" fill="#8B6E5A"/>
+  <rect x="80" y="240" width="240" height="10" rx="4" fill="#8B6E5A"/>
+
+  <!-- Scroll roller handles -->
+  <ellipse cx="80" cy="55" rx="6" ry="10" fill="#6B5344"/>
+  <ellipse cx="320" cy="55" rx="6" ry="10" fill="#6B5344"/>
+  <ellipse cx="80" cy="245" rx="6" ry="10" fill="#6B5344"/>
+  <ellipse cx="320" cy="245" rx="6" ry="10" fill="#6B5344"/>
+
+  <!-- Mountain silhouette (ink wash style) -->
+  <!-- Far mountains (light) -->
+  <ellipse cx="200" cy="185" rx="100" ry="35" fill="#C9B8A8" opacity="0.4"/>
+  <ellipse cx="140" cy="195" rx="60" ry="25" fill="#C9B8A8" opacity="0.3"/>
+  <ellipse cx="270" cy="192" rx="55" ry="22" fill="#C9B8A8" opacity="0.3"/>
+
+  <!-- Mid mountains (medium) -->
+  <path d="M100 210 Q140 155 180 175 Q200 145 220 175 Q260 150 300 210 Z" fill="#8B6E5A" opacity="0.5"/>
+
+  <!-- Near mountain (dark) -->
+  <path d="M120 248 Q155 185 190 205 Q200 175 210 205 Q245 182 280 248 Z" fill="#6B5344" opacity="0.8"/>
+
+  <!-- Pine trees (silhouette) -->
+  <!-- Tree 1 -->
+  <polygon points="150,248 160,215 170,248" fill="#6B5344"/>
+  <polygon points="146,232 160,205 174,232" fill="#6B5344"/>
+  <polygon points="143,220 160,196 177,220" fill="#6B5344" opacity="0.8"/>
+  <!-- Tree 2 -->
+  <polygon points="230,248 240,218 250,248" fill="#6B5344"/>
+  <polygon points="226,234 240,208 254,234" fill="#6B5344"/>
+  <polygon points="223,222 240,200 257,222" fill="#6B5344" opacity="0.8"/>
+
+  <!-- Ink brush (decorative, top right of scroll) -->
+  <line x1="285" y1="75" x2="275" y2="115" stroke="#6B5344" stroke-width="3" stroke-linecap="round"/>
+  <!-- Brush tip -->
+  <path d="M275 115 Q270 125 268 132 Q272 125 278 120 Q282 115 278 118 Z" fill="#C65D28"/>
+  <!-- Brush top handle -->
+  <rect x="282" y="68" width="8" height="12" rx="2" fill="#B8956A"/>
+
+  <!-- Red seal stamp (bottom right) -->
+  <rect x="268" y="218" width="30" height="28" rx="2" fill="#C65D28" opacity="0.9"/>
+  <!-- Seal inner pattern (simplified Chinese-style frame) -->
+  <rect x="272" y="222" width="22" height="20" rx="1" fill="none" stroke="#F7F2ED" stroke-width="1.5"/>
+  <!-- Seal cross pattern -->
+  <line x1="283" y1="222" x2="283" y2="242" stroke="#F7F2ED" stroke-width="1"/>
+  <line x1="272" y1="232" x2="294" y2="232" stroke="#F7F2ED" stroke-width="1"/>
+
+  <!-- Flying crane (minimal, top left) -->
+  <path d="M110 85 Q120 78 130 82" stroke="#6B5344" stroke-width="2" stroke-linecap="round" fill="none"/>
+  <path d="M120 82 Q122 76 126 78" stroke="#6B5344" stroke-width="1.5" stroke-linecap="round" fill="none"/>
+  <path d="M115 86 Q118 90 120 82" fill="#6B5344" opacity="0.6"/>
+
+  <!-- Moon (top center-left) -->
+  <circle cx="168" cy="88" r="14" fill="#EDE5DA"/>
+  <circle cx="162" cy="88" r="14" fill="#C9B8A8" opacity="0.5"/>
+  <circle cx="168" cy="88" r="14" fill="none" stroke="#B8956A" stroke-width="1" opacity="0.4"/>
+</svg>

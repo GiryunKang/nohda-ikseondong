@@ -1,0 +1,69 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 300" fill="none">
+  <!-- Background -->
+  <rect width="400" height="300" fill="#F7F2ED"/>
+
+  <!-- Hanok mini roof at top -->
+  <polygon points="130,80 200,45 270,80" fill="#6B5344"/>
+  <polygon points="140,80 200,52 260,80" fill="#8B6E5A"/>
+  <rect x="140" y="78" width="120" height="6" fill="#6B5344"/>
+
+  <!-- Cafe sign area -->
+  <rect x="155" y="84" width="90" height="22" rx="2" fill="#C65D28"/>
+  <!-- Sign dots as decoration -->
+  <circle cx="175" cy="95" r="3" fill="#F7F2ED" opacity="0.8"/>
+  <circle cx="200" cy="95" r="3" fill="#F7F2ED" opacity="0.8"/>
+  <circle cx="225" cy="95" r="3" fill="#F7F2ED" opacity="0.8"/>
+
+  <!-- Table surface -->
+  <ellipse cx="200" cy="210" rx="90" ry="18" fill="#8B6E5A"/>
+  <ellipse cx="200" cy="205" rx="90" ry="18" fill="#A07860"/>
+
+  <!-- Table legs -->
+  <rect x="163" y="222" width="8" height="40" rx="2" fill="#6B5344"/>
+  <rect x="229" y="222" width="8" height="40" rx="2" fill="#6B5344"/>
+
+  <!-- Coffee cup (main) -->
+  <!-- Saucer -->
+  <ellipse cx="200" cy="208" rx="36" ry="9" fill="#6B5344" opacity="0.3"/>
+  <ellipse cx="200" cy="206" rx="34" ry="8" fill="#D4B896"/>
+  <!-- Cup body -->
+  <path d="M170 185 L172 206 Q200 212 228 206 L230 185 Q200 178 170 185 Z" fill="#F7F2ED"/>
+  <path d="M170 185 Q200 191 230 185" stroke="#D4B896" stroke-width="1.5" fill="none"/>
+  <!-- Cup handle -->
+  <path d="M230 190 Q248 190 248 198 Q248 206 230 204" stroke="#D4B896" stroke-width="3" fill="none" stroke-linecap="round"/>
+  <!-- Coffee surface -->
+  <ellipse cx="200" cy="185" rx="30" ry="7" fill="#6B5344"/>
+  <ellipse cx="200" cy="185" rx="28" ry="6" fill="#8B6E5A"/>
+
+  <!-- Latte art (heart shape on coffee surface) -->
+  <path d="M193 183 Q193 179 197 179 Q200 179 200 182 Q200 179 203 179 Q207 179 207 183 Q207 187 200 191 Q193 187 193 183 Z" fill="#B8956A" opacity="0.8"/>
+
+  <!-- Steam -->
+  <path d="M188 178 Q185 172 188 166 Q191 160 188 154" stroke="#C65D28" stroke-width="1.8" stroke-linecap="round" fill="none" opacity="0.5"/>
+  <path d="M200 176 Q197 170 200 164 Q203 158 200 152" stroke="#C65D28" stroke-width="1.8" stroke-linecap="round" fill="none" opacity="0.5"/>
+  <path d="M212 178 Q215 172 212 166 Q209 160 212 154" stroke="#C65D28" stroke-width="1.8" stroke-linecap="round" fill="none" opacity="0.5"/>
+
+  <!-- Small pastry/cookie on saucer right -->
+  <ellipse cx="242" cy="202" rx="12" ry="7" fill="#C9A87A"/>
+  <ellipse cx="242" cy="200" rx="12" ry="7" fill="#D4B896"/>
+  <ellipse cx="242" cy="198" rx="10" ry="5" fill="#C65D28" opacity="0.5"/>
+
+  <!-- Window behind (hanok lattice style) -->
+  <rect x="100" y="106" width="60" height="70" rx="2" fill="#F7F2ED" stroke="#8B6E5A" stroke-width="1.5"/>
+  <!-- Lattice pattern -->
+  <line x1="120" y1="106" x2="120" y2="176" stroke="#8B6E5A" stroke-width="1"/>
+  <line x1="140" y1="106" x2="140" y2="176" stroke="#8B6E5A" stroke-width="1"/>
+  <line x1="100" y1="126" x2="160" y2="126" stroke="#8B6E5A" stroke-width="1"/>
+  <line x1="100" y1="146" x2="160" y2="146" stroke="#8B6E5A" stroke-width="1"/>
+  <line x1="100" y1="166" x2="160" y2="166" stroke="#8B6E5A" stroke-width="1"/>
+
+  <rect x="240" y="106" width="60" height="70" rx="2" fill="#F7F2ED" stroke="#8B6E5A" stroke-width="1.5"/>
+  <line x1="260" y1="106" x2="260" y2="176" stroke="#8B6E5A" stroke-width="1"/>
+  <line x1="280" y1="106" x2="280" y2="176" stroke="#8B6E5A" stroke-width="1"/>
+  <line x1="240" y1="126" x2="300" y2="126" stroke="#8B6E5A" stroke-width="1"/>
+  <line x1="240" y1="146" x2="300" y2="146" stroke="#8B6E5A" stroke-width="1"/>
+  <line x1="240" y1="166" x2="300" y2="166" stroke="#8B6E5A" stroke-width="1"/>
+
+  <!-- Floor line -->
+  <rect x="60" y="262" width="280" height="3" rx="1.5" fill="#6B5344" opacity="0.3"/>
+</svg>

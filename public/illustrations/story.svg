@@ -1,0 +1,84 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 300" fill="none">
+  <!-- Background -->
+  <rect width="400" height="300" fill="#F7F2ED"/>
+
+  <!-- Open book base shadow -->
+  <ellipse cx="200" cy="265" rx="130" ry="10" fill="#6B5344" opacity="0.1"/>
+
+  <!-- Open book - left page -->
+  <path d="M60 80 Q60 260 200 260 L200 80 Q130 60 60 80 Z" fill="#EDE5DA"/>
+  <path d="M62 82 Q62 258 200 258 L200 82 Q132 62 62 82 Z" fill="#F0EBE3" stroke="#D4B896" stroke-width="1"/>
+
+  <!-- Open book - right page -->
+  <path d="M340 80 Q340 260 200 260 L200 80 Q270 60 340 80 Z" fill="#EDE5DA"/>
+  <path d="M338 82 Q338 258 200 258 L200 82 Q268 62 338 82 Z" fill="#F0EBE3" stroke="#D4B896" stroke-width="1"/>
+
+  <!-- Book spine shadow -->
+  <path d="M200 80 L200 260" stroke="#B8956A" stroke-width="3" opacity="0.5"/>
+
+  <!-- Left page: text lines (representing written story) -->
+  <line x1="80" y1="110" x2="185" y2="108" stroke="#C9B8A8" stroke-width="1.5" stroke-linecap="round"/>
+  <line x1="80" y1="122" x2="185" y2="120" stroke="#C9B8A8" stroke-width="1.5" stroke-linecap="round"/>
+  <line x1="80" y1="134" x2="175" y2="132" stroke="#C9B8A8" stroke-width="1.5" stroke-linecap="round"/>
+  <line x1="80" y1="146" x2="185" y2="144" stroke="#C9B8A8" stroke-width="1.5" stroke-linecap="round"/>
+  <line x1="80" y1="158" x2="165" y2="156" stroke="#C9B8A8" stroke-width="1.5" stroke-linecap="round"/>
+
+  <!-- Left page: decorative chapter marker -->
+  <rect x="78" y="95" width="4" height="22" rx="2" fill="#C65D28"/>
+
+  <!-- Left page: small hanok illustration (embedded in book) -->
+  <!-- Mini hanok roof -->
+  <polygon points="90,220 130,195 170,220" fill="#8B6E5A" opacity="0.5"/>
+  <rect x="95" y="220" width="70" height="28" fill="#D4B896" opacity="0.4"/>
+  <!-- Mini door -->
+  <rect x="122" y="232" width="16" height="16" rx="1" fill="#8B6E5A" opacity="0.5"/>
+  <!-- Mini trees (flanking) -->
+  <polygon points="85,248 90,232 95,248" fill="#6B5344" opacity="0.4"/>
+  <polygon points="165,248 170,232 175,248" fill="#6B5344" opacity="0.4"/>
+
+  <!-- Right page: Hanok silhouette illustration -->
+  <!-- Sky wash (right page top) -->
+  <path d="M202 82 Q270 62 337 82 L337 170 L202 170 Z" fill="#C9B8A8" opacity="0.12"/>
+
+  <!-- Moon (right page) -->
+  <circle cx="300" cy="120" r="22" fill="#EDE5DA"/>
+  <circle cx="293" cy="120" r="22" fill="#D4B896" opacity="0.4"/>
+
+  <!-- Hanok silhouette (right page, main illustration) -->
+  <!-- Far building -->
+  <rect x="215" y="185" width="50" height="50" fill="#8B6E5A" opacity="0.4"/>
+  <polygon points="210,185 240,165 270,185" fill="#6B5344" opacity="0.5"/>
+  <polygon points="213,185 240,168 267,185" fill="#8B6E5A" opacity="0.4"/>
+
+  <!-- Main building -->
+  <rect x="240" y="195" width="80" height="45" fill="#8B6E5A" opacity="0.5"/>
+  <polygon points="233,195 280,168 327,195" fill="#6B5344" opacity="0.65"/>
+  <polygon points="237,195 280,172 323,195" fill="#8B6E5A" opacity="0.5"/>
+  <rect x="237" y="193" width="86" height="5" fill="#6B5344" opacity="0.5"/>
+
+  <!-- Building door (right page) -->
+  <rect x="272" y="218" width="16" height="22" rx="1" fill="#6B5344" opacity="0.4"/>
+
+  <!-- Building windows -->
+  <rect x="248" y="208" width="14" height="10" rx="1" fill="#C65D28" opacity="0.25"/>
+  <rect x="298" y="208" width="14" height="10" rx="1" fill="#C65D28" opacity="0.25"/>
+
+  <!-- Trees (right page) -->
+  <polygon points="220,240 226,222 232,240" fill="#6B5344" opacity="0.5"/>
+  <polygon points="217,232 226,218 235,232" fill="#6B5344" opacity="0.4"/>
+  <polygon points="318,240 324,222 330,240" fill="#6B5344" opacity="0.5"/>
+  <polygon points="315,232 324,218 333,232" fill="#6B5344" opacity="0.4"/>
+
+  <!-- Ground line (right page) -->
+  <line x1="215" y1="240" x2="335" y2="240" stroke="#B8956A" stroke-width="1" opacity="0.4"/>
+
+  <!-- Red seal (left page, bottom) -->
+  <rect x="160" y="240" width="22" height="20" rx="2" fill="#C65D28" opacity="0.7"/>
+  <rect x="163" y="243" width="16" height="14" rx="1" fill="none" stroke="#F7F2ED" stroke-width="1"/>
+  <line x1="171" y1="243" x2="171" y2="257" stroke="#F7F2ED" stroke-width="0.8"/>
+  <line x1="163" y1="250" x2="179" y2="250" stroke="#F7F2ED" stroke-width="0.8"/>
+
+  <!-- Book corner page turn detail -->
+  <path d="M60 80 Q55 82 57 90 Q60 84 65 83 Z" fill="#D4B896" opacity="0.5"/>
+  <path d="M340 80 Q345 82 343 90 Q340 84 335 83 Z" fill="#D4B896" opacity="0.5"/>
+</svg>

@@ -1,18 +1,18 @@
 import type { Metadata } from "next";
-import { Plus_Jakarta_Sans, Inter } from "next/font/google";
+import { Literata, DM_Sans } from "next/font/google";
 import "./globals.css";
 
 import { getLocale } from "@/lib/i18n/server";
 import { I18nProvider } from "@/lib/i18n/context";
 import { FloatingCta } from "@/components/floating-cta";
 
-const plusJakarta = Plus_Jakarta_Sans({
+const literata = Literata({
   variable: "--font-heading",
   subsets: ["latin"],
-  weight: ["500", "600", "700", "800"],
+  weight: ["400", "500", "600", "700"],
 });
 
-const inter = Inter({
+const dmSans = DM_Sans({
   variable: "--font-sans",
   subsets: ["latin"],
 });
@@ -40,7 +40,7 @@ export default async function RootLayout({
   return (
     <html
       lang={locale}
-      className={`${plusJakarta.variable} ${inter.variable} h-full antialiased`}
+      className={`${literata.variable} ${dmSans.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col font-sans">
         <I18nProvider locale={locale}>

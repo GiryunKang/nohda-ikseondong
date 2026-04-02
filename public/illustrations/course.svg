@@ -1,0 +1,73 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 300" fill="none">
+  <!-- Background -->
+  <rect width="400" height="300" fill="#F7F2ED"/>
+
+  <!-- Ground / map base -->
+  <rect x="50" y="60" width="300" height="200" rx="6" fill="#EDE5DA"/>
+
+  <!-- Path / walking route (dotted curve through alley) -->
+  <path d="M100 240 Q110 200 140 180 Q170 160 165 130 Q162 110 200 100 Q230 92 250 115 Q270 138 300 130"
+        stroke="#C65D28" stroke-width="3" stroke-linecap="round" stroke-dasharray="6,8" fill="none"/>
+
+  <!-- Start marker -->
+  <circle cx="100" cy="240" r="10" fill="#C65D28"/>
+  <circle cx="100" cy="240" r="6" fill="#F7F2ED"/>
+  <circle cx="100" cy="240" r="3" fill="#C65D28"/>
+
+  <!-- End marker (pin) -->
+  <circle cx="300" cy="130" r="12" fill="#6B5344"/>
+  <circle cx="300" cy="130" r="7" fill="#F7F2ED"/>
+  <path d="M300 142 L296 154 Q300 160 304 154 Z" fill="#6B5344"/>
+
+  <!-- Footsteps along path -->
+  <!-- Step 1 -->
+  <ellipse cx="125" cy="218" rx="5" ry="7" rx="5" ry="7" transform="rotate(-20 125 218)" fill="#B8956A" opacity="0.5"/>
+  <ellipse cx="135" cy="210" rx="5" ry="7" transform="rotate(-25 135 210)" fill="#B8956A" opacity="0.5"/>
+  <!-- Step 2 -->
+  <ellipse cx="150" cy="195" rx="5" ry="7" transform="rotate(-40 150 195)" fill="#B8956A" opacity="0.5"/>
+  <ellipse cx="160" cy="188" rx="5" ry="7" transform="rotate(-45 160 188)" fill="#B8956A" opacity="0.5"/>
+  <!-- Step 3 -->
+  <ellipse cx="168" cy="160" rx="5" ry="7" transform="rotate(-80 168 160)" fill="#B8956A" opacity="0.5"/>
+  <ellipse cx="164" cy="148" rx="5" ry="7" transform="rotate(-85 164 148)" fill="#B8956A" opacity="0.5"/>
+  <!-- Step 4 -->
+  <ellipse cx="186" cy="122" rx="5" ry="7" transform="rotate(-10 186 122)" fill="#B8956A" opacity="0.5"/>
+  <ellipse cx="197" cy="116" rx="5" ry="7" transform="rotate(-15 197 116)" fill="#B8956A" opacity="0.5"/>
+  <!-- Step 5 -->
+  <ellipse cx="228" cy="108" rx="5" ry="7" transform="rotate(10 228 108)" fill="#B8956A" opacity="0.5"/>
+  <ellipse cx="240" cy="112" rx="5" ry="7" transform="rotate(15 240 112)" fill="#B8956A" opacity="0.5"/>
+  <!-- Step 6 -->
+  <ellipse cx="272" cy="126" rx="5" ry="7" transform="rotate(30 272 126)" fill="#B8956A" opacity="0.5"/>
+  <ellipse cx="283" cy="130" rx="5" ry="7" transform="rotate(25 283 130)" fill="#B8956A" opacity="0.5"/>
+
+  <!-- Hanok building icons along the path -->
+  <!-- Building 1 (left) -->
+  <rect x="62" y="150" width="36" height="28" fill="#D4B896" opacity="0.7"/>
+  <polygon points="60,150 80,135 100,150" fill="#8B6E5A" opacity="0.8"/>
+  <rect x="72" y="162" width="8" height="16" fill="#6B5344" opacity="0.6"/>
+
+  <!-- Building 2 (top center) -->
+  <rect x="186" y="68" width="40" height="28" fill="#D4B896" opacity="0.7"/>
+  <polygon points="183,68 206,53 229,68" fill="#8B6E5A" opacity="0.8"/>
+  <rect x="198" y="80" width="8" height="16" fill="#6B5344" opacity="0.6"/>
+
+  <!-- Building 3 (right) -->
+  <rect x="305" y="150" width="36" height="28" fill="#D4B896" opacity="0.7"/>
+  <polygon points="302,150 323,135 343,150" fill="#8B6E5A" opacity="0.8"/>
+  <rect x="315" y="162" width="8" height="16" fill="#6B5344" opacity="0.6"/>
+
+  <!-- Distance markers (small circles on path) -->
+  <circle cx="155" cy="172" r="4" fill="#B8956A"/>
+  <circle cx="186" cy="130" r="4" fill="#B8956A"/>
+  <circle cx="235" cy="108" r="4" fill="#B8956A"/>
+
+  <!-- Compass rose (bottom right) -->
+  <circle cx="345" cy="245" r="18" fill="#EDE5DA" stroke="#B8956A" stroke-width="1.5"/>
+  <polygon points="345,230 341,245 345,252 349,245" fill="#C65D28"/>
+  <polygon points="345,258 341,245 345,238 349,245" fill="#8B6E5A" opacity="0.5"/>
+  <polygon points="330,245 345,241 352,245 345,249" fill="#8B6E5A" opacity="0.5"/>
+  <polygon points="360,245 345,241 338,245 345,249" fill="#8B6E5A" opacity="0.3"/>
+  <circle cx="345" cy="245" r="3" fill="#6B5344"/>
+
+  <!-- Map border decoration -->
+  <rect x="50" y="60" width="300" height="200" rx="6" fill="none" stroke="#B8956A" stroke-width="1.5"/>
+</svg>

@@ -1,0 +1,64 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 300" fill="none">
+  <!-- Background -->
+  <rect width="400" height="300" fill="#F7F2ED"/>
+
+  <!-- Shadow under suitcase -->
+  <ellipse cx="200" cy="262" rx="80" ry="10" fill="#6B5344" opacity="0.12"/>
+
+  <!-- Suitcase body -->
+  <rect x="110" y="110" width="180" height="140" rx="12" fill="#6B5344"/>
+  <rect x="114" y="114" width="172" height="132" rx="10" fill="#8B6E5A"/>
+
+  <!-- Suitcase panel detail (inner frame) -->
+  <rect x="124" y="124" width="152" height="112" rx="8" fill="none" stroke="#6B5344" stroke-width="2"/>
+
+  <!-- Suitcase middle band -->
+  <rect x="114" y="172" width="172" height="16" fill="#6B5344" opacity="0.4"/>
+
+  <!-- Suitcase zipper line -->
+  <line x1="200" y1="114" x2="200" y2="246" stroke="#6B5344" stroke-width="2" stroke-dasharray="4,3"/>
+  <line x1="124" y1="180" x2="276" y2="180" stroke="#6B5344" stroke-width="2" stroke-dasharray="4,3"/>
+
+  <!-- Corner reinforcements -->
+  <rect x="110" y="110" width="20" height="20" rx="0" fill="#6B5344" opacity="0.3"/>
+  <rect x="270" y="110" width="20" height="20" rx="0" fill="#6B5344" opacity="0.3"/>
+  <rect x="110" y="230" width="20" height="20" rx="0" fill="#6B5344" opacity="0.3"/>
+  <rect x="270" y="230" width="20" height="20" rx="0" fill="#6B5344" opacity="0.3"/>
+
+  <!-- Handle bar (top) -->
+  <rect x="168" y="92" width="64" height="12" rx="6" fill="#C65D28"/>
+  <rect x="174" y="88" width="10" height="26" rx="4" fill="#B8956A"/>
+  <rect x="216" y="88" width="10" height="26" rx="4" fill="#B8956A"/>
+
+  <!-- Wheels (bottom) -->
+  <circle cx="143" cy="255" r="11" fill="#6B5344"/>
+  <circle cx="143" cy="255" r="7" fill="#8B6E5A"/>
+  <circle cx="143" cy="255" r="3" fill="#6B5344"/>
+  <circle cx="257" cy="255" r="11" fill="#6B5344"/>
+  <circle cx="257" cy="255" r="7" fill="#8B6E5A"/>
+  <circle cx="257" cy="255" r="3" fill="#6B5344"/>
+
+  <!-- Lock / clasp -->
+  <rect x="186" y="172" width="28" height="20" rx="4" fill="#B8956A"/>
+  <rect x="190" y="168" width="20" height="8" rx="4" fill="none" stroke="#B8956A" stroke-width="3"/>
+  <circle cx="200" cy="182" r="3" fill="#6B5344"/>
+
+  <!-- Nohda branding tag -->
+  <rect x="230" y="138" width="36" height="24" rx="3" fill="#C65D28"/>
+  <line x1="248" y1="130" x2="248" y2="138" stroke="#B8956A" stroke-width="2"/>
+  <circle cx="248" cy="129" r="3" fill="#B8956A"/>
+  <!-- Tag lines (representing text) -->
+  <line x1="236" y1="147" x2="258" y2="147" stroke="#F7F2ED" stroke-width="1.5" opacity="0.8"/>
+  <line x1="236" y1="153" x2="252" y2="153" stroke="#F7F2ED" stroke-width="1.5" opacity="0.6"/>
+
+  <!-- Hanok pattern on suitcase front (subtle) -->
+  <!-- Traditional geometric pattern top-left panel -->
+  <rect x="130" y="130" width="60" height="40" rx="4" fill="#6B5344" opacity="0.15"/>
+  <line x1="130" y1="148" x2="190" y2="148" stroke="#6B5344" stroke-width="1" opacity="0.2"/>
+  <line x1="160" y1="130" x2="160" y2="170" stroke="#6B5344" stroke-width="1" opacity="0.2"/>
+
+  <!-- Traditional pattern bottom-left panel -->
+  <rect x="130" y="188" width="60" height="40" rx="4" fill="#6B5344" opacity="0.15"/>
+  <line x1="130" y1="206" x2="190" y2="206" stroke="#6B5344" stroke-width="1" opacity="0.2"/>
+  <line x1="160" y1="188" x2="160" y2="228" stroke="#6B5344" stroke-width="1" opacity="0.2"/>
+</svg>

@@ -1,6 +1,5 @@
 import Link from "next/link";
-
-import { Clock } from "lucide-react";
+import Image from "next/image";
 
 import { createClient } from "@/lib/supabase/server";
 import { CATEGORY_LABELS } from "@/lib/constants";
@@ -64,20 +63,21 @@ export default async function MagazinePage({ searchParams }: MagazinePageProps) 
 
       <main className="flex-1">
         {/* Page Header */}
-        <section className="border-b border-border/60 px-4 pb-6 pt-10 md:pt-14">
+        <section className="px-5 pb-6 pt-12 md:pt-16">
           <div className="mx-auto max-w-5xl">
-            <p className="text-sm font-medium uppercase tracking-widest text-primary">
+            <p className="text-xs font-medium uppercase tracking-[0.2em] text-primary">
               Magazine
             </p>
-            <h1 className="mt-2 font-heading text-3xl font-extrabold md:text-4xl">
+            <h1 className="mt-2 font-heading text-3xl font-bold md:text-4xl">
               익선동 이야기
             </h1>
-            <p className="mt-2 max-w-lg text-muted-foreground">
-              맛집, 카페, 문화공간부터 숨은 골목 이야기까지. 익선동과 종로3가를 깊이 있게 전합니다.
+            <p className="mt-2 max-w-lg text-sm text-muted-foreground">
+              맛집, 카페, 문화공간부터 숨은 골목 이야기까지.
+              익선동과 종로3가를 깊이 있게 전합니다.
             </p>
 
             {/* Category Filter */}
-            <div className="mt-6 flex gap-2 overflow-x-auto pb-1 scrollbar-none">
+            <div className="mt-8 flex gap-2 overflow-x-auto pb-1 scrollbar-none">
               {CATEGORIES.map((cat) => {
                 const isActive = cat.key === (category ?? "all");
                 return (
@@ -88,10 +88,10 @@ export default async function MagazinePage({ searchParams }: MagazinePageProps) 
                         ? "/magazine"
                         : `/magazine?category=${cat.key}`
                     }
-                    className={`shrink-0 rounded-full border px-4 py-1.5 text-sm font-medium transition-all ${
+                    className={`shrink-0 rounded-full px-4 py-1.5 text-sm transition-all ${
                       isActive
-                        ? "border-primary bg-primary text-primary-foreground shadow-sm"
-                        : "border-border bg-background text-muted-foreground hover:border-primary/40 hover:text-foreground"
+                        ? "bg-primary font-medium text-primary-foreground"
+                        : "bg-accent text-muted-foreground hover:text-foreground"
                     }`}
                   >
                     {cat.label}
@@ -102,29 +102,29 @@ export default async function MagazinePage({ searchParams }: MagazinePageProps) 
           </div>
         </section>
 
-        <section className="px-4 py-10 md:py-14">
+        <section className="px-5 py-10 md:py-14">
           <div className="mx-auto max-w-5xl">
-            {/* Featured Article — Editorial Hero */}
+            {/* Featured Article — Magazine cover style */}
             {featured && (
-              <Link href={`/magazine/${featured.slug}`} className="group mb-12 block">
-                <article className="relative overflow-hidden rounded-2xl shadow-sm transition-shadow hover:shadow-lg">
+              <Link href={`/magazine/${featured.slug}`} className="group mb-14 block">
+                <article className="relative overflow-hidden rounded-lg">
                   <ArticleCover
                     category={featured.category}
                     coverImageUrl={featured.cover_image_url}
                     size="lg"
                     overlay
                   />
-                  <div className="absolute inset-0 flex flex-col justify-end bg-gradient-to-t from-black/70 via-black/30 to-transparent p-6 md:p-10">
-                    <Badge className="mb-3 w-fit border-none bg-white/20 text-white backdrop-blur-sm">
+                  <div className="absolute inset-0 flex flex-col justify-end p-6 md:p-10">
+                    <Badge className="mb-3 w-fit border-none bg-white/15 text-white backdrop-blur-sm">
                       {CATEGORY_LABELS[featured.category] ?? featured.category}
                     </Badge>
                     <h2 className="font-heading text-2xl font-bold leading-tight text-white md:text-3xl lg:text-4xl">
                       {featured.title}
                     </h2>
-                    <p className="mt-2 line-clamp-2 max-w-2xl text-sm leading-relaxed text-white/80 md:text-base">
+                    <p className="mt-2 line-clamp-2 max-w-2xl text-sm text-white/75 md:text-base">
                       {featured.excerpt}
                     </p>
-                    <div className="mt-4 flex items-center gap-3 text-xs text-white/60">
+                    <div className="mt-4 flex items-center gap-4 text-xs text-white/50">
                       {featured.published_at && (
                         <time>{formatDate(featured.published_at)}</time>
                       )}
@@ -137,37 +137,86 @@ export default async function MagazinePage({ searchParams }: MagazinePageProps) 
               </Link>
             )}
 
-            {/* Article Grid — Editorial Cards */}
+            {/* Article Grid — Asymmetric editorial */}
             {rest.length > 0 ? (
-              <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-                {rest.map((article) => (
+              <div className="space-y-6">
+                {/* Row: large + small */}
+                {rest.length >= 2 && (
+                  <div className="grid gap-5 md:grid-cols-5">
+                    <Link
+                      href={`/magazine/${rest[0].slug}`}
+                      className="group md:col-span-3"
+                    >
+                      <article className="relative h-full overflow-hidden rounded-lg">
+                        <ArticleCover
+                          category={rest[0].category}
+                          coverImageUrl={rest[0].cover_image_url}
+                          size="md"
+                          overlay
+                        />
+                        <div className="absolute inset-0 flex flex-col justify-end bg-gradient-to-t from-black/60 to-transparent p-5">
+                          <Badge className="mb-2 w-fit border-none bg-white/15 text-white backdrop-blur-sm text-xs">
+                            {CATEGORY_LABELS[rest[0].category] ?? rest[0].category}
+                          </Badge>
+                          <h3 className="font-heading text-lg font-semibold text-white">
+                            {rest[0].title}
+                          </h3>
+                        </div>
+                      </article>
+                    </Link>
+                    <Link
+                      href={`/magazine/${rest[1].slug}`}
+                      className="group md:col-span-2"
+                    >
+                      <article className="flex h-full flex-col overflow-hidden rounded-lg bg-card ring-1 ring-border/40 transition-all hover:ring-primary/20">
+                        <ArticleCover
+                          category={rest[1].category}
+                          coverImageUrl={rest[1].cover_image_url}
+                          size="sm"
+                        />
+                        <div className="flex flex-1 flex-col justify-center p-5">
+                          <Badge variant="outline" className="w-fit text-xs font-normal">
+                            {CATEGORY_LABELS[rest[1].category] ?? rest[1].category}
+                          </Badge>
+                          <h3 className="mt-2 font-heading text-base font-medium leading-snug group-hover:text-primary">
+                            {rest[1].title}
+                          </h3>
+                          <p className="mt-1.5 line-clamp-2 text-sm text-muted-foreground">
+                            {rest[1].excerpt}
+                          </p>
+                        </div>
+                      </article>
+                    </Link>
+                  </div>
+                )}
+
+                {/* Remaining cards — horizontal */}
+                {rest.slice(2).map((article) => (
                   <Link key={article.id} href={`/magazine/${article.slug}`}>
-                    <article className="group flex h-full flex-col overflow-hidden rounded-xl bg-card shadow-sm ring-1 ring-border/50 transition-all hover:-translate-y-0.5 hover:shadow-md hover:ring-primary/20">
-                      <ArticleCover
-                        category={article.category}
-                        coverImageUrl={article.cover_image_url}
-                        size="md"
-                      />
-                      <div className="flex flex-1 flex-col p-5">
-                        <div className="flex items-center gap-2">
+                    <article className="group grid overflow-hidden rounded-lg bg-card ring-1 ring-border/40 transition-all hover:ring-primary/20 md:grid-cols-3">
+                      <div className="md:col-span-1">
+                        <ArticleCover
+                          category={article.category}
+                          coverImageUrl={article.cover_image_url}
+                          size="md"
+                        />
+                      </div>
+                      <div className="flex flex-col justify-center p-5 md:col-span-2 md:p-6">
+                        <div className="flex items-center gap-3">
                           <Badge variant="outline" className="text-xs font-normal">
                             {CATEGORY_LABELS[article.category] ?? article.category}
                           </Badge>
                           {article.published_at && (
-                            <span className="flex items-center gap-1 text-xs text-muted-foreground">
-                              <Clock className="h-3 w-3" />
+                            <span className="text-xs text-muted-foreground">
                               {formatDate(article.published_at)}
                             </span>
                           )}
                         </div>
-                        <h3 className="mt-3 font-heading text-base font-semibold leading-snug group-hover:text-primary">
+                        <h3 className="mt-2 font-heading text-base font-medium group-hover:text-primary md:text-lg">
                           {article.title}
                         </h3>
-                        <p className="mt-2 line-clamp-2 flex-1 text-sm leading-relaxed text-muted-foreground">
+                        <p className="mt-1.5 line-clamp-2 text-sm text-muted-foreground">
                           {article.excerpt}
-                        </p>
-                        <p className="mt-4 text-xs font-medium text-primary opacity-0 transition-opacity group-hover:opacity-100">
-                          자세히 읽기 →
                         </p>
                       </div>
                     </article>
@@ -177,10 +226,16 @@ export default async function MagazinePage({ searchParams }: MagazinePageProps) 
             ) : (
               !featured && (
                 <div className="flex flex-col items-center py-24 text-center">
-                  <div className="flex h-16 w-16 items-center justify-center rounded-full bg-muted">
-                    <Clock className="h-7 w-7 text-muted-foreground" />
-                  </div>
-                  <p className="mt-4 text-lg font-medium text-foreground">아직 등록된 콘텐츠가 없습니다</p>
+                  <Image
+                    src="/illustrations/story.svg"
+                    alt=""
+                    width={200}
+                    height={150}
+                    className="opacity-60"
+                  />
+                  <p className="mt-6 font-heading text-lg font-medium">
+                    아직 등록된 콘텐츠가 없습니다
+                  </p>
                   <p className="mt-1 text-sm text-muted-foreground">
                     곧 익선동의 새로운 이야기가 찾아옵니다
                   </p>
