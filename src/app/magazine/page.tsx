@@ -192,8 +192,8 @@ export default async function MagazinePage({ searchParams }: MagazinePageProps) 
 
                 {/* Remaining cards — horizontal */}
                 {rest.slice(2).map((article) => (
-                  <Link key={article.id} href={`/magazine/${article.slug}`}>
-                    <article className="group grid overflow-hidden rounded-lg bg-card ring-1 ring-border/40 transition-all hover:ring-primary/20 md:grid-cols-3">
+                  <Link key={article.id} href={`/magazine/${article.slug}`} className="group">
+                    <article className="grid overflow-hidden rounded-lg bg-card ring-1 ring-border/40 transition-all hover:ring-primary/20 md:grid-cols-3">
                       <div className="md:col-span-1">
                         <ArticleCover
                           category={article.category}
