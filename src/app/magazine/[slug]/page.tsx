@@ -4,7 +4,7 @@ import Image from "next/image";
 
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
-import { ArrowLeft, Share2 } from "lucide-react";
+import { ArrowLeft } from "lucide-react";
 
 import { createClient } from "@/lib/supabase/server";
 import { CATEGORY_LABELS } from "@/lib/constants";
@@ -13,6 +13,8 @@ import { Badge } from "@/components/ui/badge";
 import { Card, CardContent } from "@/components/ui/card";
 import { Header } from "@/components/layout/header";
 import { Footer } from "@/components/layout/footer";
+import { ArticleCover } from "@/components/article-cover";
+import { ShareButton } from "@/components/share-button";
 
 import type { Metadata } from "next";
 
@@ -83,6 +85,19 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
       <Header />
 
       <main className="flex-1">
+        {/* Cover Image */}
+        {article.cover_image_url && (
+          <section className="relative">
+            <ArticleCover
+              category={article.category}
+              coverImageUrl={article.cover_image_url}
+              title={article.title}
+              size="lg"
+              overlay
+            />
+          </section>
+        )}
+
         {/* Article Header */}
         <section className="bg-gradient-to-b from-accent to-background px-4 py-8 md:py-12">
           <div className="mx-auto max-w-3xl">
@@ -171,9 +186,8 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
             </Card>
 
             {/* Share */}
-            <div className="mt-6 flex items-center justify-center gap-2">
-              <Share2 className="h-4 w-4 text-muted-foreground" />
-              <span className="text-sm text-muted-foreground">공유하기</span>
+            <div className="mt-6 flex items-center justify-center">
+              <ShareButton title={article.title} text={article.excerpt ?? undefined} />
             </div>
           </div>
         </section>

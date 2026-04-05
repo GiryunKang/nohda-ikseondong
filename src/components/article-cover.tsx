@@ -1,5 +1,7 @@
 import Image from "next/image";
 
+import { CATEGORY_LABELS } from "@/lib/constants";
+
 const CATEGORY_ILLUSTRATIONS: Record<string, string> = {
   restaurant: "/illustrations/restaurant.svg",
   cafe: "/illustrations/cafe.svg",
@@ -15,6 +17,7 @@ interface ArticleCoverProps {
   coverImageUrl?: string | null;
   size?: "sm" | "md" | "lg";
   overlay?: boolean;
+  title?: string;
 }
 
 export function ArticleCover({
@@ -22,6 +25,7 @@ export function ArticleCover({
   coverImageUrl,
   size = "md",
   overlay = false,
+  title,
 }: ArticleCoverProps) {
   const heights: Record<string, string> = {
     sm: "h-36",
@@ -33,13 +37,15 @@ export function ArticleCover({
     coverImageUrl?.startsWith("http") ||
     coverImageUrl?.startsWith("data:image/svg+xml");
 
+  const altText = title ?? CATEGORY_LABELS[category] ?? category;
+
   if (hasRealImage) {
     return (
       <div className={`relative overflow-hidden ${heights[size]}`}>
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img
           src={coverImageUrl!}
-          alt=""
+          alt={altText}
           className="h-full w-full object-cover transition-transform duration-700 ease-out group-hover:scale-[1.03]"
         />
         {overlay && (
@@ -58,7 +64,7 @@ export function ArticleCover({
     >
       <Image
         src={illustration}
-        alt=""
+        alt={altText}
         width={400}
         height={300}
         className="h-full w-full object-cover opacity-90"

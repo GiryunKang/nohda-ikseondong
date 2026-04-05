@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import Image from "next/image";
 
 import { Menu, X } from "lucide-react";
@@ -14,12 +15,18 @@ import { LocaleSwitcher } from "@/components/locale-switcher";
 export function Header() {
   const [open, setOpen] = useState(false);
   const { t } = useI18n();
+  const pathname = usePathname();
 
   const navItems = [
     { href: "/", label: t.nav.home },
     { href: "/magazine", label: t.nav.magazine },
     { href: "/about", label: t.nav.about },
   ];
+
+  function isActive(href: string) {
+    if (href === "/") return pathname === "/";
+    return pathname.startsWith(href);
+  }
 
   return (
     <header className="sticky top-0 z-50 w-full border-b border-border/60 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/80">
@@ -41,7 +48,7 @@ export function Header() {
             <Link
               key={item.href}
               href={item.href}
-              className="text-sm font-medium text-muted-foreground transition-colors hover:text-foreground"
+              className={`text-sm font-medium transition-colors hover:text-foreground ${isActive(item.href) ? "text-foreground" : "text-muted-foreground"}`}
             >
               {item.label}
             </Link>
@@ -67,7 +74,7 @@ export function Header() {
                     key={item.href}
                     href={item.href}
                     onClick={() => setOpen(false)}
-                    className="text-lg font-medium text-foreground transition-colors hover:text-primary"
+                    className={`text-lg font-medium transition-colors hover:text-primary ${isActive(item.href) ? "text-primary" : "text-foreground"}`}
                   >
                     {item.label}
                   </Link>
