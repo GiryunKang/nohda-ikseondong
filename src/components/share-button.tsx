@@ -21,8 +21,9 @@ export function ShareButton({ title, text }: ShareButtonProps) {
       try {
         await navigator.share({ title, text, url });
         return;
-      } catch {
-        // User cancelled or share failed — fall through to clipboard
+      } catch (err) {
+        if (err instanceof DOMException && err.name === "AbortError") return;
+        console.error("Share failed:", err);
       }
     }
 
@@ -30,8 +31,8 @@ export function ShareButton({ title, text }: ShareButtonProps) {
       await navigator.clipboard.writeText(url);
       setCopied(true);
       setTimeout(() => setCopied(false), 2000);
-    } catch {
-      // Clipboard API not available
+    } catch (err) {
+      console.error("Clipboard write failed:", err);
     }
   }
 
