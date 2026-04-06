@@ -4,7 +4,7 @@ import { createContext, useContext } from "react";
 
 import { getDictionary } from "./dictionaries";
 
-import type { Locale, } from "./config";
+import type { Locale } from "./config";
 import type { Dictionary } from "./dictionaries";
 
 interface I18nContextValue {

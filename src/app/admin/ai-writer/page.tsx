@@ -148,8 +148,8 @@ export default function AIWriterPage() {
           <Card className="border shadow-sm">
             <CardContent className="space-y-4 p-5">
               <div className="space-y-2">
-                <Label>카테고리</Label>
-                <div className="flex flex-wrap gap-2">
+                <Label id="category-label">카테고리</Label>
+                <div className="flex flex-wrap gap-2" role="group" aria-labelledby="category-label">
                   {CATEGORIES.map((cat) => (
                     <button
                       key={cat.value}
@@ -181,8 +181,8 @@ export default function AIWriterPage() {
               </div>
 
               <div className="space-y-2">
-                <Label>톤</Label>
-                <div className="flex gap-2">
+                <Label id="tone-label">톤</Label>
+                <div className="flex gap-2" role="group" aria-labelledby="tone-label">
                   {TONES.map((t) => (
                     <button
                       key={t.value}
