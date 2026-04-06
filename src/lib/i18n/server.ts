@@ -1,6 +1,6 @@
 import { cookies, headers } from "next/headers";
 
-import { COOKIE_NAME, DEFAULT_LOCALE, detectLocale } from "./config";
+import { COOKIE_NAME, detectLocale } from "./config";
 import { getDictionary } from "./dictionaries";
 
 import type { Locale } from "./config";

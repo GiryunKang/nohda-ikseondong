@@ -114,9 +114,8 @@ async function handleCrawl(request: NextRequest) {
   });
 }
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
 async function upsertPlaces(
-  supabase: { from: (table: string) => any },
+  supabase: ReturnType<typeof import("@supabase/ssr").createServerClient>,
   places: CrawledPlace[]
 ): Promise<number> {
   if (places.length === 0) return 0;

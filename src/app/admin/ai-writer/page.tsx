@@ -220,6 +220,7 @@ export default function AIWriterPage() {
               {coverSvg && (
                 <div className="rounded-lg border bg-white p-2">
                   <p className="mb-2 text-xs text-muted-foreground">커버 일러스트</p>
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
                   <img
                     src={`data:image/svg+xml;base64,${btoa(unescape(encodeURIComponent(coverSvg)))}`}
                     alt="생성된 커버 이미지"
@@ -343,7 +344,7 @@ export default function AIWriterPage() {
                 <div className="text-center text-muted-foreground">
                   <span className="text-4xl">🐶</span>
                   <p className="mt-4">
-                    주제를 입력하고 "AI 초안 생성"을 눌러주세요
+                    주제를 입력하고 &ldquo;AI 초안 생성&rdquo;을 눌러주세요
                   </p>
                   <p className="mt-1 text-sm">
                     크롤링된 장소 데이터를 참고해서 기사를 생성합니다

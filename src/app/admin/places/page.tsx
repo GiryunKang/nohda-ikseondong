@@ -67,7 +67,7 @@ export default async function AdminPlacesPage() {
         ) : (
           <Card className="border shadow-sm">
             <CardContent className="p-8 text-center text-muted-foreground">
-              아직 크롤링된 장소가 없습니다. "크롤링 실행" 버튼을 눌러보세요.
+              아직 크롤링된 장소가 없습니다. &ldquo;크롤링 실행&rdquo; 버튼을 눌러보세요.
               <br />
               <span className="text-xs">
                 (KAKAO_REST_API_KEY 또는 GOOGLE_PLACES_API_KEY 설정 필요)

@@ -16,7 +16,7 @@ export default function ArticleLoading() {
       <div className="px-5 py-8">
         <div className="mx-auto max-w-3xl space-y-4">
           {Array.from({ length: 8 }).map((_, i) => (
-            <div key={i} className="h-4 animate-pulse rounded bg-muted" style={{ width: `${70 + Math.random() * 30}%` }} />
+            <div key={i} className="h-4 animate-pulse rounded bg-muted" style={{ width: `${70 + (i * 7) % 30}%` }} />
           ))}
         </div>
       </div>
