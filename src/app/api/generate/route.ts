@@ -58,7 +58,12 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ error: "Not an admin" }, { status: 403 });
   }
 
-  const body = await request.json();
+  let body;
+  try {
+    body = await request.json();
+  } catch {
+    return NextResponse.json({ error: "Invalid JSON" }, { status: 400 });
+  }
   const { category, topic, tone = "friendly", save = false } = body;
 
   if (!category || !topic) {
@@ -78,12 +83,13 @@ export async function POST(request: NextRequest) {
   }
 
   // Fetch related places from DB
-  const { data: places } = await supabase
+  const { data: places, error: placesError } = await supabase
     .from("places")
     .select("name, category, address, rating")
     .eq("category", category)
     .order("rating", { ascending: false, nullsFirst: false })
     .limit(10);
+  if (placesError) console.error("Places query failed:", placesError);
 
   const prompt = buildArticlePrompt(category, topic, tone, places ?? undefined);
 
