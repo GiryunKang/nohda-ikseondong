@@ -5,7 +5,8 @@ import { createClient } from "@/lib/supabase/client";
 export function LogoutButton() {
   const handleLogout = async () => {
     const supabase = createClient();
-    await supabase.auth.signOut();
+    const { error } = await supabase.auth.signOut();
+    if (error) console.error("Sign out failed:", error);
     window.location.href = "/admin/login";
   };
 

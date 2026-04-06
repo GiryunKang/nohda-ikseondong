@@ -24,7 +24,8 @@ export async function POST(request: NextRequest) {
     }
   );
 
-  const { data: { user } } = await supabase.auth.getUser();
+  const { data: { user }, error: authError } = await supabase.auth.getUser();
+  if (authError) console.error("Auth check failed:", authError);
   if (!user) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }

@@ -6,7 +6,6 @@ interface XPostResult {
 }
 
 export async function postToX(content: string): Promise<XPostResult> {
-  const bearerToken = process.env.X_BEARER_TOKEN;
   const apiKey = process.env.X_API_KEY;
   const apiSecret = process.env.X_API_SECRET;
   const accessToken = process.env.X_ACCESS_TOKEN;

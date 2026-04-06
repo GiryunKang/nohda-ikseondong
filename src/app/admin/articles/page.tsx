@@ -81,6 +81,7 @@ export default async function AdminArticlesPage() {
                         href={`/magazine/${article.slug}`}
                         className="text-primary hover:underline"
                         target="_blank"
+                        rel="noopener noreferrer"
                       >
                         보기 ↗
                       </Link>

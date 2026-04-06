@@ -9,7 +9,8 @@ export async function updateArticleStatus(
   status: "draft" | "review" | "published" | "archived"
 ) {
   const supabase = await createClient();
-  const { data: { user } } = await supabase.auth.getUser();
+  const { data: { user }, error: authError } = await supabase.auth.getUser();
+  if (authError) console.error("Auth check failed:", authError);
   if (!user) return { success: false, error: "인증이 필요합니다." };
 
   const updateData: Record<string, unknown> = { status };
@@ -32,7 +33,8 @@ export async function updateArticleStatus(
 
 export async function deleteArticle(articleId: string) {
   const supabase = await createClient();
-  const { data: { user } } = await supabase.auth.getUser();
+  const { data: { user }, error: authError } = await supabase.auth.getUser();
+  if (authError) console.error("Auth check failed:", authError);
   if (!user) return { success: false, error: "인증이 필요합니다." };
 
   const { error } = await supabase
@@ -50,16 +52,20 @@ export async function deleteArticle(articleId: string) {
 
 export async function triggerCrawl() {
   const supabase = await createClient();
-  const { data: { user } } = await supabase.auth.getUser();
+  const { data: { user }, error: authError } = await supabase.auth.getUser();
+  if (authError) console.error("Auth check failed:", authError);
   if (!user) return { success: false, error: "인증이 필요합니다." };
 
-  const response = await fetch(
-    `${process.env.NEXT_PUBLIC_SUPABASE_URL ? "" : ""}${process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : "http://localhost:3000"}/api/crawl`,
-    {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-    }
-  );
+  const baseUrl = process.env.VERCEL_PROJECT_PRODUCTION_URL
+    ? `https://${process.env.VERCEL_PROJECT_PRODUCTION_URL}`
+    : process.env.VERCEL_URL
+      ? `https://${process.env.VERCEL_URL}`
+      : "http://localhost:3000";
+
+  const response = await fetch(`${baseUrl}/api/crawl`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+  });
 
   if (!response.ok) {
     return { success: false, error: "크롤링 요청에 실패했습니다." };

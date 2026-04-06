@@ -15,7 +15,8 @@ export default async function AdminLayout({
 
   try {
     const supabase = await createClient();
-    const { data: { user } } = await supabase.auth.getUser();
+    const { data: { user }, error: authError } = await supabase.auth.getUser();
+    if (authError) console.error("Admin auth check failed:", authError);
 
     if (user) {
       isAuthenticated = true;
