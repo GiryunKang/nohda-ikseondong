@@ -25,9 +25,10 @@ export async function POST(request: NextRequest) {
     }
   );
 
-  const { data: { user } } = await supabase.auth.getUser();
+  const { data: { user }, error: authError } = await supabase.auth.getUser();
+  if (authError) console.error("Auth check failed:", authError);
   if (!user) {
-    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+    return NextResponse.json({ error: "인증이 필요합니다" }, { status: 401 });
   }
 
   const body = await request.json();
@@ -36,18 +37,29 @@ export async function POST(request: NextRequest) {
     platforms: Array<"x" | "instagram">;
   };
 
-  if (!article_id || !platforms?.length) {
-    return NextResponse.json(
-      { error: "article_id and platforms are required" },
-      { status: 400 }
-    );
+  if (!article_id || typeof article_id !== "string") {
+    return NextResponse.json({ error: "유효하지 않은 입력입니다" }, { status: 400 });
   }
 
-  const { data: article } = await supabase
+  const VALID_PLATFORMS = ["x", "instagram"] as const;
+  if (
+    !Array.isArray(platforms) ||
+    platforms.length === 0 ||
+    !platforms.every((p) => VALID_PLATFORMS.includes(p as (typeof VALID_PLATFORMS)[number]))
+  ) {
+    return NextResponse.json({ error: "유효하지 않은 입력입니다" }, { status: 400 });
+  }
+
+  const { data: article, error: articleError } = await supabase
     .from("articles")
     .select("title, slug, sns_summary_x, sns_summary_instagram, cover_image_url")
     .eq("id", article_id)
     .single();
+
+  if (articleError) {
+    console.error("Article query failed:", articleError);
+    return NextResponse.json({ error: "처리 중 오류가 발생했습니다" }, { status: 500 });
+  }
 
   if (!article) {
     return NextResponse.json({ error: "Article not found" }, { status: 404 });
@@ -69,7 +81,7 @@ export async function POST(request: NextRequest) {
       const result = await postToX(content);
       results.x = result;
 
-      await supabase.from("sns_posts").insert({
+      const { error: xInsertError } = await supabase.from("sns_posts").insert({
         article_id,
         platform: "x",
         status: result.success ? "published" : "failed",
@@ -79,6 +91,7 @@ export async function POST(request: NextRequest) {
         published_at: result.success ? new Date().toISOString() : null,
         error_message: result.error ?? null,
       });
+      if (xInsertError) console.error("sns_posts insert failed (x):", xInsertError);
     }
 
     if (platform === "instagram") {
@@ -89,7 +102,7 @@ export async function POST(request: NextRequest) {
       const result = await postToInstagram(caption, article.cover_image_url ?? undefined);
       results.instagram = result;
 
-      await supabase.from("sns_posts").insert({
+      const { error: igInsertError } = await supabase.from("sns_posts").insert({
         article_id,
         platform: "instagram",
         status: result.success ? "published" : "failed",
@@ -99,6 +112,7 @@ export async function POST(request: NextRequest) {
         published_at: result.success ? new Date().toISOString() : null,
         error_message: result.error ?? null,
       });
+      if (igInsertError) console.error("sns_posts insert failed (instagram):", igInsertError);
     }
   }
 

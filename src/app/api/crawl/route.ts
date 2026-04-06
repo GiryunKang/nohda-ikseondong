@@ -56,11 +56,16 @@ async function handleCrawl(request: NextRequest) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
-    const { data: profile } = await supabase
+    const { data: profile, error: profileError } = await supabase
       .from("admin_profiles")
       .select("id")
       .eq("id", user.id)
       .single();
+
+    if (profileError) {
+      console.error("Admin profile query failed:", profileError);
+      return NextResponse.json({ error: "처리 중 오류가 발생했습니다" }, { status: 500 });
+    }
 
     if (!profile) {
       return NextResponse.json({ error: "Not an admin" }, { status: 403 });

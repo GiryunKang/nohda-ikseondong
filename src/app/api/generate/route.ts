@@ -37,16 +37,22 @@ export async function POST(request: NextRequest) {
     }
   );
 
-  const { data: { user } } = await supabase.auth.getUser();
+  const { data: { user }, error: authError } = await supabase.auth.getUser();
+  if (authError) console.error("Auth check failed:", authError);
   if (!user) {
-    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+    return NextResponse.json({ error: "인증이 필요합니다" }, { status: 401 });
   }
 
-  const { data: profile } = await supabase
+  const { data: profile, error: profileError } = await supabase
     .from("admin_profiles")
     .select("id")
     .eq("id", user.id)
     .single();
+
+  if (profileError) {
+    console.error("Admin profile query failed:", profileError);
+    return NextResponse.json({ error: "처리 중 오류가 발생했습니다" }, { status: 500 });
+  }
 
   if (!profile) {
     return NextResponse.json({ error: "Not an admin" }, { status: 403 });
@@ -60,6 +66,10 @@ export async function POST(request: NextRequest) {
       { error: "category and topic are required" },
       { status: 400 }
     );
+  }
+
+  if (typeof topic !== "string" || topic.length > 500) {
+    return NextResponse.json({ error: "유효하지 않은 입력입니다" }, { status: 400 });
   }
 
   // Fetch related places from DB

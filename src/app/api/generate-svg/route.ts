@@ -36,6 +36,14 @@ export async function POST(request: NextRequest) {
     article_id?: string;
   };
 
+  if (
+    (prompt !== undefined && typeof prompt !== "string") ||
+    (category !== undefined && typeof category !== "string") ||
+    (article_id !== undefined && typeof article_id !== "string")
+  ) {
+    return NextResponse.json({ error: "유효하지 않은 입력입니다" }, { status: 400 });
+  }
+
   const finalPrompt = prompt ?? (category ? CATEGORY_SVG_PROMPTS[category] : null);
 
   if (!finalPrompt) {
@@ -57,10 +65,15 @@ export async function POST(request: NextRequest) {
   if (article_id) {
     const svgDataUrl = `data:image/svg+xml;base64,${Buffer.from(svg).toString("base64")}`;
 
-    await supabase
+    const { error: updateError } = await supabase
       .from("articles")
       .update({ cover_image_url: svgDataUrl })
       .eq("id", article_id);
+
+    if (updateError) {
+      console.error("Article SVG update failed:", updateError);
+      return NextResponse.json({ error: "커버 이미지 저장에 실패했습니다" }, { status: 500 });
+    }
   }
 
   return NextResponse.json({

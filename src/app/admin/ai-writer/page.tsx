@@ -81,6 +81,7 @@ export default function AIWriterPage() {
 
   const handleGenerateSvg = async () => {
     setGeneratingSvg(true);
+    setError("");
     try {
       const response = await fetch("/api/generate-svg", {
         method: "POST",
@@ -91,9 +92,12 @@ export default function AIWriterPage() {
       const data = await response.json();
       if (data.success) {
         setCoverSvg(data.svg);
+      } else {
+        setError(data.error ?? "커버 일러스트 생성에 실패했습니다.");
       }
-    } catch {
-      // SVG generation failed silently
+    } catch (err) {
+      console.error("SVG 생성 실패:", err);
+      setError("커버 일러스트 생성 중 오류가 발생했습니다.");
     } finally {
       setGeneratingSvg(false);
     }
@@ -214,9 +218,10 @@ export default function AIWriterPage() {
               {coverSvg && (
                 <div className="rounded-lg border bg-white p-2">
                   <p className="mb-2 text-xs text-muted-foreground">커버 일러스트</p>
-                  <div
+                  <img
+                    src={`data:image/svg+xml;base64,${btoa(unescape(encodeURIComponent(coverSvg)))}`}
+                    alt="생성된 커버 이미지"
                     className="overflow-hidden rounded"
-                    dangerouslySetInnerHTML={{ __html: coverSvg }}
                   />
                 </div>
               )}

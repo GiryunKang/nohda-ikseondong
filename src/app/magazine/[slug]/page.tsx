@@ -66,7 +66,7 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
     .from("articles")
     .update({ view_count: (article.view_count ?? 0) + 1 })
     .eq("id", article.id)
-    .then();
+    .then(({ error }) => { if (error) console.error("View count update failed:", error); });
 
   // Related articles
   const { data: related } = await supabase

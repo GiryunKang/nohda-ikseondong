@@ -29,6 +29,8 @@ export function LocaleSwitcher() {
               ? "bg-primary/10 font-semibold text-primary"
               : "text-muted-foreground hover:text-foreground"
           }`}
+          aria-label={LOCALE_LABELS[loc]}
+          aria-pressed={current === loc}
           title={LOCALE_LABELS[loc]}
         >
           {LOCALE_FLAGS[loc]}

@@ -64,7 +64,7 @@ export function Header() {
           <LocaleSwitcher />
           <Sheet open={open} onOpenChange={setOpen}>
             <SheetTrigger
-              render={<Button variant="ghost" size="icon" />}
+              render={<Button variant="ghost" size="icon" aria-label={open ? "메뉴 닫기" : "메뉴 열기"} />}
             >
               {open ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
             </SheetTrigger>
