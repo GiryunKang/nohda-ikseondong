@@ -55,6 +55,7 @@ export function ArticleCover({
             src={coverImageUrl!}
             alt={altText}
             fill
+            sizes="(max-width: 768px) 100vw, 60vw"
             className="object-cover transition-transform duration-700 ease-out group-hover:scale-[1.03]"
           />
         )}

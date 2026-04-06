@@ -110,7 +110,7 @@ async function searchNearby(
       source: "google",
       source_id: place.id,
       image_url: place.photos?.[0]
-        ? `https://places.googleapis.com/v1/${place.photos[0].name}/media?maxHeightPx=400&key=${apiKey}`
+        ? `https://places.googleapis.com/v1/${place.photos[0].name}/media?maxHeightPx=400`
         : null,
       description: place.primaryTypeDisplayName?.text ?? null,
       tags: [place.primaryTypeDisplayName?.text ?? ""].filter(Boolean),

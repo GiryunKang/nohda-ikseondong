@@ -6,9 +6,15 @@ import type { NextRequest } from "next/server";
 import type { Locale } from "@/lib/i18n/config";
 
 export async function POST(request: NextRequest) {
-  const { locale } = (await request.json()) as { locale: string };
+  let locale: string;
+  try {
+    const body = await request.json();
+    locale = body.locale;
+  } catch {
+    return NextResponse.json({ error: "Invalid JSON" }, { status: 400 });
+  }
 
-  if (!LOCALES.includes(locale as Locale)) {
+  if (!locale || !LOCALES.includes(locale as Locale)) {
     return NextResponse.json({ error: "Invalid locale" }, { status: 400 });
   }
 

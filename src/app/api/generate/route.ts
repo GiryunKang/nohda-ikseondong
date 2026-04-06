@@ -72,6 +72,11 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ error: "유효하지 않은 입력입니다" }, { status: 400 });
   }
 
+  const VALID_TONES = ["friendly", "informative", "emotional"] as const;
+  if (typeof tone !== "string" || !VALID_TONES.includes(tone as typeof VALID_TONES[number])) {
+    return NextResponse.json({ error: "유효하지 않은 톤입니다" }, { status: 400 });
+  }
+
   // Fetch related places from DB
   const { data: places } = await supabase
     .from("places")
