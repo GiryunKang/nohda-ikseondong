@@ -72,7 +72,8 @@ export default function AIWriterPage() {
       }
 
       setArticle(data.article);
-    } catch {
+    } catch (err) {
+      console.error("Article generation failed:", err);
       setError("네트워크 오류가 발생했습니다.");
     } finally {
       setLoading(false);
@@ -126,7 +127,8 @@ export default function AIWriterPage() {
       } else {
         setSaveResult(`저장 실패: ${data.save_error ?? "알 수 없는 오류"}`);
       }
-    } catch {
+    } catch (err) {
+      console.error("Article save failed:", err);
       setSaveResult("저장 중 오류가 발생했습니다.");
     } finally {
       setSaving(false);

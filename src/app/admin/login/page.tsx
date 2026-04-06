@@ -35,7 +35,8 @@ export default function AdminLoginPage() {
       }
 
       window.location.href = "/admin";
-    } catch {
+    } catch (err) {
+      console.error("Login failed:", err);
       setError("로그인 중 오류가 발생했습니다.");
     } finally {
       setLoading(false);

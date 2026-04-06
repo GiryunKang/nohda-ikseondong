@@ -27,12 +27,13 @@ export async function generateMetadata({
 }: ArticlePageProps): Promise<Metadata> {
   const { slug } = await params;
   const supabase = await createClient();
-  const { data: article } = await supabase
+  const { data: article, error: metaError } = await supabase
     .from("articles")
     .select("title, excerpt")
     .eq("slug", slug)
     .eq("status", "published")
     .single();
+  if (metaError) console.error("Metadata article query failed:", metaError);
 
   if (!article) return { title: "글을 찾을 수 없습니다" };
 
@@ -52,12 +53,13 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
   const { slug } = await params;
   const supabase = await createClient();
 
-  const { data: article } = await supabase
+  const { data: article, error: articleError } = await supabase
     .from("articles")
     .select("*")
     .eq("slug", slug)
     .eq("status", "published")
     .single();
+  if (articleError) console.error("Article page query failed:", articleError);
 
   if (!article) notFound();
 
@@ -69,7 +71,7 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
     .then(({ error }) => { if (error) console.error("View count update failed:", error); });
 
   // Related articles
-  const { data: related } = await supabase
+  const { data: related, error: relatedError } = await supabase
     .from("articles")
     .select("id, title, slug, category, excerpt, published_at")
     .eq("status", "published")
@@ -77,6 +79,7 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
     .neq("id", article.id)
     .order("published_at", { ascending: false })
     .limit(3);
+  if (relatedError) console.error("Related articles query failed:", relatedError);
 
   const readTime = Math.max(1, Math.ceil(article.content.length / 500));
 

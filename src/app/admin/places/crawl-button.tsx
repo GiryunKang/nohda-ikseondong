@@ -29,7 +29,8 @@ export function CrawlButton() {
       } else {
         setResult(data.error ?? "크롤링에 실패했습니다.");
       }
-    } catch {
+    } catch (err) {
+      console.error("Crawl request failed:", err);
       setResult("네트워크 오류가 발생했습니다.");
     } finally {
       setLoading(false);

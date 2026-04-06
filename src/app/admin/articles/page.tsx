@@ -10,10 +10,11 @@ import { ArticleActions } from "./article-actions";
 export default async function AdminArticlesPage() {
   const supabase = await createClient();
 
-  const { data: articles } = await supabase
+  const { data: articles, error: articlesError } = await supabase
     .from("articles")
     .select("id, title, slug, category, status, is_ai_generated, view_count, published_at, created_at")
     .order("created_at", { ascending: false });
+  if (articlesError) console.error("Admin articles query failed:", articlesError);
 
   const statusLabels: Record<string, string> = {
     draft: "임시저장",

@@ -8,11 +8,12 @@ import { CrawlButton } from "./crawl-button";
 export default async function AdminPlacesPage() {
   const supabase = await createClient();
 
-  const { data: places, count } = await supabase
+  const { data: places, count, error: placesError } = await supabase
     .from("places")
     .select("id, name, category, address, rating, review_count, source, crawled_at, is_featured", { count: "exact" })
     .order("rating", { ascending: false, nullsFirst: false })
     .limit(50);
+  if (placesError) console.error("Admin places query failed:", placesError);
 
   const sourceLabels: Record<string, string> = {
     kakao: "카카오",

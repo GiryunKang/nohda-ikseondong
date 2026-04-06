@@ -5,10 +5,10 @@ export default async function AdminDashboardPage() {
   const supabase = await createClient();
 
   const [
-    { count: articleCount },
-    { count: placeCount },
-    { count: publishedCount },
-    { count: snsCount },
+    { count: articleCount, error: e1 },
+    { count: placeCount, error: e2 },
+    { count: publishedCount, error: e3 },
+    { count: snsCount, error: e4 },
   ] = await Promise.all([
     supabase.from("articles").select("*", { count: "exact", head: true }),
     supabase.from("places").select("*", { count: "exact", head: true }),
@@ -19,6 +19,8 @@ export default async function AdminDashboardPage() {
     supabase.from("sns_posts").select("*", { count: "exact", head: true }),
   ]);
 
+  [e1, e2, e3, e4].forEach((e, i) => { if (e) console.error(`Dashboard query ${i} failed:`, e); });
+
   const stats = [
     { label: "총 콘텐츠", value: articleCount ?? 0, icon: "📝" },
     { label: "발행됨", value: publishedCount ?? 0, icon: "✅" },
@@ -26,11 +28,12 @@ export default async function AdminDashboardPage() {
     { label: "SNS 공유", value: snsCount ?? 0, icon: "📱" },
   ];
 
-  const { data: recentArticles } = await supabase
+  const { data: recentArticles, error: recentError } = await supabase
     .from("articles")
     .select("id, title, status, category, created_at")
     .order("created_at", { ascending: false })
     .limit(5);
+  if (recentError) console.error("Recent articles query failed:", recentError);
 
   return (
     <div>

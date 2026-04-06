@@ -16,14 +16,16 @@ export function ArticleActions({ articleId, currentStatus }: ArticleActionsProps
 
   const handleStatusChange = async (status: "draft" | "review" | "published" | "archived") => {
     setLoading(true);
-    await updateArticleStatus(articleId, status);
+    const result = await updateArticleStatus(articleId, status);
+    if (!result.success) console.error("Status update failed:", result.error);
     setLoading(false);
   };
 
   const handleDelete = async () => {
     if (!confirm("정말 삭제하시겠습니까?")) return;
     setLoading(true);
-    await deleteArticle(articleId);
+    const result = await deleteArticle(articleId);
+    if (!result.success) console.error("Delete failed:", result.error);
     setLoading(false);
   };
 

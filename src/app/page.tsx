@@ -17,12 +17,13 @@ export default async function HomePage() {
   const { t } = await getServerDictionary();
   const supabase = await createClient();
 
-  const { data: articles } = await supabase
+  const { data: articles, error: articlesError } = await supabase
     .from("articles")
     .select("id, title, slug, category, excerpt, cover_image_url, published_at")
     .eq("status", "published")
     .order("published_at", { ascending: false })
     .limit(6);
+  if (articlesError) console.error("Homepage articles query failed:", articlesError);
 
   const featured = articles?.[0];
   const rest = articles?.slice(1, 5) ?? [];

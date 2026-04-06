@@ -52,7 +52,8 @@ export default async function MagazinePage({ searchParams }: MagazinePageProps) 
     query = query.eq("category", category);
   }
 
-  const { data: articles } = await query;
+  const { data: articles, error: articlesError } = await query;
+  if (articlesError) console.error("Magazine articles query failed:", articlesError);
 
   const featured = articles?.[0];
   const rest = articles?.slice(1) ?? [];

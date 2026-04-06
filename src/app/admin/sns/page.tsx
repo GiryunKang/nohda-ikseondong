@@ -38,7 +38,7 @@ export default function AdminSnsPage() {
     const supabase = createClient();
 
     async function load() {
-      const [{ data: arts }, { data: posts }] = await Promise.all([
+      const [{ data: arts, error: artsError }, { data: posts, error: postsError }] = await Promise.all([
         supabase
           .from("articles")
           .select("id, title, slug, category, status, sns_summary_x, sns_summary_instagram")
@@ -52,6 +52,8 @@ export default function AdminSnsPage() {
           .limit(30),
       ]);
 
+      if (artsError) console.error("Articles query failed:", artsError);
+      if (postsError) console.error("SNS posts query failed:", postsError);
       setArticles(arts ?? []);
       setSnsPosts(posts ?? []);
     }
@@ -82,7 +84,8 @@ export default function AdminSnsPage() {
       } else {
         setResult(data.error ?? "발행에 실패했습니다.");
       }
-    } catch {
+    } catch (err) {
+      console.error("SNS publish failed:", err);
       setResult("네트워크 오류가 발생했습니다.");
     } finally {
       setPublishing(null);
