@@ -2,7 +2,8 @@ import Link from "next/link";
 import Image from "next/image";
 
 import { createClient } from "@/lib/supabase/server";
-import { CATEGORY_LABELS } from "@/lib/constants";
+import { getLocale } from "@/lib/i18n/server";
+import { CATEGORY_LABELS, DATE_LOCALE_MAP } from "@/lib/constants";
 import { ArticleCover } from "@/components/article-cover";
 import { Badge } from "@/components/ui/badge";
 import { Header } from "@/components/layout/header";
@@ -27,11 +28,13 @@ const CATEGORIES = [
 ] as const;
 
 interface MagazinePageProps {
-  searchParams: Promise<{ category?: string }>;
+  searchParams: Promise<{ category?: string; page?: string }>;
 }
 
-function formatDate(dateStr: string) {
-  return new Date(dateStr).toLocaleDateString("ko-KR", {
+const PAGE_SIZE = 10;
+
+function formatDate(dateStr: string, locale: string) {
+  return new Date(dateStr).toLocaleDateString(locale, {
     year: "numeric",
     month: "long",
     day: "numeric",
@@ -39,24 +42,33 @@ function formatDate(dateStr: string) {
 }
 
 export default async function MagazinePage({ searchParams }: MagazinePageProps) {
-  const { category } = await searchParams;
+  const { category, page: pageParam } = await searchParams;
+  const pageNum = Math.max(1, parseInt(pageParam ?? "1", 10) || 1);
+  const offset = (pageNum - 1) * PAGE_SIZE;
   const supabase = await createClient();
+  const locale = await getLocale();
+  const dateLocale = DATE_LOCALE_MAP[locale] ?? "ko-KR";
 
   let query = supabase
     .from("articles")
-    .select("id, title, slug, category, excerpt, cover_image_url, published_at, view_count")
+    .select("id, title, slug, category, excerpt, cover_image_url, published_at, view_count", {
+      count: "exact",
+    })
     .eq("status", "published")
-    .order("published_at", { ascending: false });
+    .order("published_at", { ascending: false })
+    .range(offset, offset + PAGE_SIZE - 1);
 
   if (category && category !== "all") {
     query = query.eq("category", category);
   }
 
-  const { data: articles, error: articlesError } = await query;
+  const { data: articles, error: articlesError, count } = await query;
   if (articlesError) console.error("Magazine articles query failed:", articlesError);
 
-  const featured = articles?.[0];
-  const rest = articles?.slice(1) ?? [];
+  const totalPages = count ? Math.ceil(count / PAGE_SIZE) : 1;
+  const isFirstPage = pageNum === 1;
+  const featured = isFirstPage ? articles?.[0] : undefined;
+  const rest = isFirstPage ? (articles?.slice(1) ?? []) : (articles ?? []);
 
   return (
     <>
@@ -127,7 +139,7 @@ export default async function MagazinePage({ searchParams }: MagazinePageProps) 
                     </p>
                     <div className="mt-4 flex items-center gap-4 text-xs text-white/50">
                       {featured.published_at && (
-                        <time>{formatDate(featured.published_at)}</time>
+                        <time>{formatDate(featured.published_at, dateLocale)}</time>
                       )}
                       {featured.view_count > 0 && (
                         <span>조회 {featured.view_count.toLocaleString()}</span>
@@ -209,7 +221,7 @@ export default async function MagazinePage({ searchParams }: MagazinePageProps) 
                           </Badge>
                           {article.published_at && (
                             <span className="text-xs text-muted-foreground">
-                              {formatDate(article.published_at)}
+                              {formatDate(article.published_at, dateLocale)}
                             </span>
                           )}
                         </div>
@@ -242,6 +254,48 @@ export default async function MagazinePage({ searchParams }: MagazinePageProps) 
                   </p>
                 </div>
               )
+            )}
+
+            {/* Pagination */}
+            {totalPages > 1 && (
+              <nav
+                className="mt-12 flex items-center justify-center gap-2"
+                aria-label="페이지 네비게이션"
+              >
+                {pageNum > 1 && (
+                  <Link
+                    href={{
+                      pathname: "/magazine",
+                      query: {
+                        ...(category && category !== "all" ? { category } : {}),
+                        ...(pageNum > 2 ? { page: String(pageNum - 1) } : {}),
+                      },
+                    }}
+                    className="rounded-full border border-border px-4 py-1.5 text-sm text-muted-foreground hover:border-primary hover:text-primary"
+                    rel="prev"
+                  >
+                    ← 이전
+                  </Link>
+                )}
+                <span className="px-3 text-sm text-muted-foreground">
+                  {pageNum} / {totalPages}
+                </span>
+                {pageNum < totalPages && (
+                  <Link
+                    href={{
+                      pathname: "/magazine",
+                      query: {
+                        ...(category && category !== "all" ? { category } : {}),
+                        page: String(pageNum + 1),
+                      },
+                    }}
+                    className="rounded-full border border-border px-4 py-1.5 text-sm text-muted-foreground hover:border-primary hover:text-primary"
+                    rel="next"
+                  >
+                    다음 →
+                  </Link>
+                )}
+              </nav>
             )}
           </div>
         </section>

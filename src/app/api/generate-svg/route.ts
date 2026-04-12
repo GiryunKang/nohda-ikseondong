@@ -30,6 +30,20 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
 
+  // Require admin profile — prevents any authenticated user from burning Quiver credits
+  const { data: profile, error: profileError } = await supabase
+    .from("admin_profiles")
+    .select("id")
+    .eq("id", user.id)
+    .single();
+  if (profileError) {
+    console.error("Admin profile query failed:", profileError);
+    return NextResponse.json({ error: "처리 중 오류가 발생했습니다" }, { status: 500 });
+  }
+  if (!profile) {
+    return NextResponse.json({ error: "Not an admin" }, { status: 403 });
+  }
+
   let body;
   try {
     body = await request.json();
@@ -69,16 +83,27 @@ export async function POST(request: NextRequest) {
   }
 
   if (article_id) {
+    // Basic UUID format check to prevent obvious injection
+    const uuidRegex = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
+    if (!uuidRegex.test(article_id)) {
+      return NextResponse.json({ error: "유효하지 않은 article_id입니다" }, { status: 400 });
+    }
+
     const svgDataUrl = `data:image/svg+xml;base64,${Buffer.from(svg).toString("base64")}`;
 
-    const { error: updateError } = await supabase
+    const { data: updated, error: updateError } = await supabase
       .from("articles")
       .update({ cover_image_url: svgDataUrl })
-      .eq("id", article_id);
+      .eq("id", article_id)
+      .select("id")
+      .single();
 
     if (updateError) {
       console.error("Article SVG update failed:", updateError);
       return NextResponse.json({ error: "커버 이미지 저장에 실패했습니다" }, { status: 500 });
+    }
+    if (!updated) {
+      return NextResponse.json({ error: "기사를 찾을 수 없습니다" }, { status: 404 });
     }
   }
 

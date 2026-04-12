@@ -1,3 +1,22 @@
+export const SITE_URL =
+  process.env.NEXT_PUBLIC_SITE_URL ?? "https://nohda-ikseondong.vercel.app";
+
+export const NOHDA_URL = "https://놓다.com";
+
+export const OG_LOCALE_MAP: Record<string, string> = {
+  ko: "ko_KR",
+  en: "en_US",
+  zh: "zh_CN",
+  ja: "ja_JP",
+};
+
+export const DATE_LOCALE_MAP: Record<string, string> = {
+  ko: "ko-KR",
+  en: "en-US",
+  zh: "zh-CN",
+  ja: "ja-JP",
+};
+
 export const CATEGORY_LABELS: Record<string, string> = {
   restaurant: "맛집",
   cafe: "카페",

@@ -7,7 +7,14 @@ import remarkGfm from "remark-gfm";
 import { ArrowLeft } from "lucide-react";
 
 import { createClient } from "@/lib/supabase/server";
-import { CATEGORY_LABELS } from "@/lib/constants";
+import { getLocale } from "@/lib/i18n/server";
+import {
+  CATEGORY_LABELS,
+  SITE_URL,
+  NOHDA_URL,
+  OG_LOCALE_MAP,
+  DATE_LOCALE_MAP,
+} from "@/lib/constants";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent } from "@/components/ui/card";
@@ -29,22 +36,56 @@ export async function generateMetadata({
   const supabase = await createClient();
   const { data: article, error: metaError } = await supabase
     .from("articles")
-    .select("title, excerpt")
+    .select("title, excerpt, cover_image_url, published_at, updated_at, category, sns_hashtags")
     .eq("slug", slug)
     .eq("status", "published")
     .single();
   if (metaError) console.error("Metadata article query failed:", metaError);
 
-  if (!article) return { title: "글을 찾을 수 없습니다" };
+  if (!article) {
+    return {
+      title: "글을 찾을 수 없습니다 | 놓다 익선동",
+      robots: { index: false, follow: false },
+    };
+  }
+
+  const locale = await getLocale();
+  const ogLocale = OG_LOCALE_MAP[locale] ?? "ko_KR";
+  const canonicalUrl = `${SITE_URL}/magazine/${slug}`;
+  const hasHttpCover =
+    typeof article.cover_image_url === "string" &&
+    article.cover_image_url.startsWith("http");
 
   return {
     title: `${article.title} | 놓다 익선동`,
     description: article.excerpt ?? "",
+    keywords: article.sns_hashtags ?? undefined,
+    alternates: { canonical: canonicalUrl },
     openGraph: {
       title: article.title,
       description: article.excerpt ?? "",
       type: "article",
-      locale: "ko_KR",
+      locale: ogLocale,
+      url: canonicalUrl,
+      siteName: "놓다 익선동",
+      publishedTime: article.published_at ?? undefined,
+      modifiedTime: article.updated_at ?? article.published_at ?? undefined,
+      ...(hasHttpCover && {
+        images: [
+          {
+            url: article.cover_image_url!,
+            width: 1200,
+            height: 630,
+            alt: article.title,
+          },
+        ],
+      }),
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: article.title,
+      description: article.excerpt ?? "",
+      ...(hasHttpCover && { images: [article.cover_image_url!] }),
     },
   };
 }
@@ -52,6 +93,8 @@ export async function generateMetadata({
 export default async function ArticlePage({ params }: ArticlePageProps) {
   const { slug } = await params;
   const supabase = await createClient();
+  const locale = await getLocale();
+  const dateLocale = DATE_LOCALE_MAP[locale] ?? "ko-KR";
 
   const { data: article, error: articleError } = await supabase
     .from("articles")
@@ -63,12 +106,13 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
 
   if (!article) notFound();
 
-  // Increment view count (fire-and-forget)
+  // Increment view count atomically via RPC (fire-and-forget)
+  // Falls back gracefully if the RPC doesn't exist yet
   supabase
-    .from("articles")
-    .update({ view_count: (article.view_count ?? 0) + 1 })
-    .eq("id", article.id)
-    .then(({ error }) => { if (error) console.error("View count update failed:", error); });
+    .rpc("increment_article_view", { article_id: article.id })
+    .then(({ error }) => {
+      if (error) console.error("View count RPC failed:", error);
+    });
 
   // Related articles
   const { data: related, error: relatedError } = await supabase
@@ -83,8 +127,46 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
 
   const readTime = Math.max(1, Math.ceil(article.content.length / 500));
 
+  const canonicalUrl = `${SITE_URL}/magazine/${slug}`;
+  const hasHttpCover =
+    typeof article.cover_image_url === "string" &&
+    article.cover_image_url.startsWith("http");
+
+  const jsonLd = {
+    "@context": "https://schema.org",
+    "@type": "Article",
+    headline: article.title,
+    description: article.excerpt ?? "",
+    ...(hasHttpCover && { image: [article.cover_image_url] }),
+    datePublished: article.published_at ?? undefined,
+    dateModified: article.updated_at ?? article.published_at ?? undefined,
+    author: {
+      "@type": "Organization",
+      name: "놓다 익선동",
+      url: SITE_URL,
+    },
+    publisher: {
+      "@type": "Organization",
+      name: "놓다 익선동",
+      logo: {
+        "@type": "ImageObject",
+        url: `${SITE_URL}/logo-icon.png`,
+      },
+    },
+    mainEntityOfPage: {
+      "@type": "WebPage",
+      "@id": canonicalUrl,
+    },
+    articleSection: CATEGORY_LABELS[article.category] ?? article.category,
+    keywords: article.sns_hashtags?.join(", ") ?? undefined,
+  };
+
   return (
     <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
       <Header />
 
       <main className="flex-1">
@@ -126,12 +208,15 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
               )}
               <div className="mt-4 flex items-center gap-3 text-sm text-muted-foreground">
                 <span>
-                  {article.published_at &&
-                    new Date(article.published_at).toLocaleDateString("ko-KR", {
-                      year: "numeric",
-                      month: "long",
-                      day: "numeric",
-                    })}
+                  {article.published_at && (
+                    <time dateTime={article.published_at}>
+                      {new Date(article.published_at).toLocaleDateString(dateLocale, {
+                        year: "numeric",
+                        month: "long",
+                        day: "numeric",
+                      })}
+                    </time>
+                  )}
                 </span>
                 <span>·</span>
                 <span>{readTime}분 읽기</span>
@@ -177,7 +262,7 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
                   size="lg"
                   render={
                     <a
-                      href="https://놓다.com"
+                      href={NOHDA_URL}
                       target="_blank"
                       rel="noopener noreferrer"
                     />

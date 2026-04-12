@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 
-import { createClient } from "@supabase/supabase-js";
+import { createClient, type SupabaseClient } from "@supabase/supabase-js";
 import { createServerClient } from "@supabase/ssr";
 import { cookies } from "next/headers";
 
@@ -11,6 +11,8 @@ import type { CrawledPlace } from "@/lib/crawlers/types";
 import type { NextRequest } from "next/server";
 
 export const maxDuration = 60;
+
+type AnyClient = SupabaseClient | ReturnType<typeof createServerClient>;
 
 // Vercel Cron calls GET
 export async function GET(request: NextRequest) {
@@ -26,7 +28,7 @@ async function handleCrawl(request: NextRequest) {
   const cronSecret = process.env.CRON_SECRET;
   const serviceRoleKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
 
-  let supabase;
+  let supabase: AnyClient;
 
   // Path 1: Cron job with service role key
   if (cronSecret && authHeader === `Bearer ${cronSecret}` && serviceRoleKey) {
@@ -115,7 +117,7 @@ async function handleCrawl(request: NextRequest) {
 }
 
 async function upsertPlaces(
-  supabase: ReturnType<typeof import("@supabase/ssr").createServerClient>,
+  supabase: AnyClient,
   places: CrawledPlace[]
 ): Promise<number> {
   if (places.length === 0) return 0;
