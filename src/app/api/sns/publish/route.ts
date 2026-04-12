@@ -52,7 +52,8 @@ export async function POST(request: NextRequest) {
     platforms: Array<"x" | "instagram">;
   };
 
-  if (!article_id || typeof article_id !== "string") {
+  const uuidRegex = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
+  if (!article_id || !uuidRegex.test(article_id)) {
     return NextResponse.json({ error: "유효하지 않은 입력입니다" }, { status: 400 });
   }
 
@@ -77,7 +78,7 @@ export async function POST(request: NextRequest) {
   }
 
   if (!article) {
-    return NextResponse.json({ error: "Article not found" }, { status: 404 });
+    return NextResponse.json({ error: "기사를 찾을 수 없습니다" }, { status: 404 });
   }
 
   const siteUrl = process.env.VERCEL_PROJECT_PRODUCTION_URL

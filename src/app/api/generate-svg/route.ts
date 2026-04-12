@@ -37,7 +37,7 @@ export async function POST(request: NextRequest) {
   const { data: { user }, error: authError } = await supabase.auth.getUser();
   if (authError) console.error("Auth check failed:", authError);
   if (!user) {
-    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+    return NextResponse.json({ error: "인증이 필요합니다" }, { status: 401 });
   }
 
   // Require admin profile — prevents any authenticated user from burning Quiver credits
@@ -51,7 +51,7 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ error: "처리 중 오류가 발생했습니다" }, { status: 500 });
   }
   if (!profile) {
-    return NextResponse.json({ error: "Not an admin" }, { status: 403 });
+    return NextResponse.json({ error: "권한이 없습니다" }, { status: 403 });
   }
 
   let body;

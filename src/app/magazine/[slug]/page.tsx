@@ -44,7 +44,7 @@ export async function generateMetadata({
 
   if (!article) {
     return {
-      title: "글을 찾을 수 없습니다 | 놓다 익선동",
+      title: "글을 찾을 수 없습니다",
       robots: { index: false, follow: false },
     };
   }
@@ -57,7 +57,7 @@ export async function generateMetadata({
     article.cover_image_url.startsWith("http");
 
   return {
-    title: `${article.title} | 놓다 익선동`,
+    title: article.title,
     description: article.excerpt ?? "",
     keywords: article.sns_hashtags ?? undefined,
     alternates: { canonical: canonicalUrl },
@@ -165,7 +165,7 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
     <>
       <script
         type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd).replace(/</g, "\\u003c") }}
       />
       <Header />
 

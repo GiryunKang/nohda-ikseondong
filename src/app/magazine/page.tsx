@@ -12,7 +12,7 @@ import { Footer } from "@/components/layout/footer";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "매거진 | 놓다 익선동",
+  title: "매거진",
   description:
     "익선동과 종로3가의 맛집, 카페, 문화공간, 코스 추천. 놓다가 전하는 동네 이야기.",
 };

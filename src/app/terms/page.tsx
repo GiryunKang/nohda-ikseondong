@@ -4,7 +4,7 @@ import { Footer } from "@/components/layout/footer";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "이용약관 | 놓다 익선동",
+  title: "이용약관",
   description: "놓다 익선동 웹사이트 이용약관입니다.",
   robots: { index: true, follow: true },
 };

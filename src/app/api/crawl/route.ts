@@ -66,7 +66,7 @@ async function handleCrawl(request: NextRequest) {
     const { data: { user }, error: authError } = await supabase.auth.getUser();
     if (authError) console.error("Auth check failed:", authError);
     if (!user) {
-      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+      return NextResponse.json({ error: "인증이 필요합니다" }, { status: 401 });
     }
 
     const { data: profile, error: profileError } = await supabase
@@ -81,7 +81,7 @@ async function handleCrawl(request: NextRequest) {
     }
 
     if (!profile) {
-      return NextResponse.json({ error: "Not an admin" }, { status: 403 });
+      return NextResponse.json({ error: "권한이 없습니다" }, { status: 403 });
     }
   }
 

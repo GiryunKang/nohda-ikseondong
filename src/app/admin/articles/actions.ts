@@ -23,7 +23,10 @@ export async function updateArticleStatus(
     .update(updateData)
     .eq("id", articleId);
 
-  if (error) return { success: false, error: error.message };
+  if (error) {
+    console.error("Article operation failed:", error);
+    return { success: false, error: "처리 중 오류가 발생했습니다" };
+  }
 
   revalidatePath("/admin/articles");
   revalidatePath("/magazine");
@@ -42,7 +45,10 @@ export async function deleteArticle(articleId: string) {
     .delete()
     .eq("id", articleId);
 
-  if (error) return { success: false, error: error.message };
+  if (error) {
+    console.error("Article operation failed:", error);
+    return { success: false, error: "처리 중 오류가 발생했습니다" };
+  }
 
   revalidatePath("/admin/articles");
   revalidatePath("/magazine");
