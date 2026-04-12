@@ -2,7 +2,7 @@ import Link from "next/link";
 import Image from "next/image";
 
 import { createClient } from "@/lib/supabase/server";
-import { getLocale } from "@/lib/i18n/server";
+import { getServerDictionary } from "@/lib/i18n/server";
 import { CATEGORY_LABELS, DATE_LOCALE_MAP } from "@/lib/constants";
 import { ArticleCover } from "@/components/article-cover";
 import { Badge } from "@/components/ui/badge";
@@ -17,15 +17,7 @@ export const metadata: Metadata = {
     "익선동과 종로3가의 맛집, 카페, 문화공간, 코스 추천. 놓다가 전하는 동네 이야기.",
 };
 
-const CATEGORIES = [
-  { key: "all", label: "전체" },
-  { key: "restaurant", label: "맛집" },
-  { key: "cafe", label: "카페" },
-  { key: "culture", label: "문화" },
-  { key: "course", label: "코스추천" },
-  { key: "event", label: "행사" },
-  { key: "story", label: "동네 이야기" },
-] as const;
+const CATEGORY_KEYS = ["all", "restaurant", "cafe", "culture", "course", "event", "story"] as const;
 
 interface MagazinePageProps {
   searchParams: Promise<{ category?: string; page?: string }>;
@@ -46,8 +38,18 @@ export default async function MagazinePage({ searchParams }: MagazinePageProps) 
   const pageNum = Math.max(1, parseInt(pageParam ?? "1", 10) || 1);
   const offset = (pageNum - 1) * PAGE_SIZE;
   const supabase = await createClient();
-  const locale = await getLocale();
+  const { locale, t } = await getServerDictionary();
   const dateLocale = DATE_LOCALE_MAP[locale] ?? "ko-KR";
+
+  const categoryLabels: Record<string, string> = {
+    all: t.magazine.all,
+    restaurant: t.categories.restaurant,
+    cafe: t.categories.cafe,
+    culture: t.categories.culture,
+    course: t.categories.course,
+    event: t.categories.event,
+    story: t.categories.story,
+  };
 
   let query = supabase
     .from("articles")
@@ -82,24 +84,23 @@ export default async function MagazinePage({ searchParams }: MagazinePageProps) 
               Magazine
             </p>
             <h1 className="mt-2 font-heading text-3xl font-bold md:text-4xl">
-              익선동 이야기
+              {t.magazine.title}
             </h1>
             <p className="mt-2 max-w-lg text-sm text-muted-foreground">
-              맛집, 카페, 문화공간부터 숨은 골목 이야기까지.
-              익선동과 종로3가를 깊이 있게 전합니다.
+              {t.magazine.subtitle}
             </p>
 
             {/* Category Filter */}
             <div className="mt-8 flex gap-2 overflow-x-auto pb-1 scrollbar-none">
-              {CATEGORIES.map((cat) => {
-                const isActive = cat.key === (category ?? "all");
+              {CATEGORY_KEYS.map((key) => {
+                const isActive = key === (category ?? "all");
                 return (
                   <Link
-                    key={cat.key}
+                    key={key}
                     href={
-                      cat.key === "all"
+                      key === "all"
                         ? "/magazine"
-                        : `/magazine?category=${cat.key}`
+                        : `/magazine?category=${key}`
                     }
                     className={`shrink-0 rounded-full px-4 py-1.5 text-sm transition-all ${
                       isActive
@@ -107,7 +108,7 @@ export default async function MagazinePage({ searchParams }: MagazinePageProps) 
                         : "bg-accent text-muted-foreground hover:text-foreground"
                     }`}
                   >
-                    {cat.label}
+                    {categoryLabels[key] ?? key}
                   </Link>
                 );
               })}
@@ -247,10 +248,7 @@ export default async function MagazinePage({ searchParams }: MagazinePageProps) 
                     className="opacity-60"
                   />
                   <p className="mt-6 font-heading text-lg font-medium">
-                    아직 등록된 콘텐츠가 없습니다
-                  </p>
-                  <p className="mt-1 text-sm text-muted-foreground">
-                    곧 익선동의 새로운 이야기가 찾아옵니다
+                    {t.magazine.noContent}
                   </p>
                 </div>
               )

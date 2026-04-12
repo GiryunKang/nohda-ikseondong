@@ -7,7 +7,7 @@ import remarkGfm from "remark-gfm";
 import { ArrowLeft } from "lucide-react";
 
 import { createClient } from "@/lib/supabase/server";
-import { getLocale } from "@/lib/i18n/server";
+import { getLocale, getServerDictionary } from "@/lib/i18n/server";
 import {
   CATEGORY_LABELS,
   SITE_URL,
@@ -93,7 +93,7 @@ export async function generateMetadata({
 export default async function ArticlePage({ params }: ArticlePageProps) {
   const { slug } = await params;
   const supabase = await createClient();
-  const locale = await getLocale();
+  const { locale, t } = await getServerDictionary();
   const dateLocale = DATE_LOCALE_MAP[locale] ?? "ko-KR";
 
   const { data: article, error: articleError } = await supabase
@@ -158,7 +158,7 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
       "@id": canonicalUrl,
     },
     articleSection: CATEGORY_LABELS[article.category] ?? article.category,
-    keywords: article.sns_hashtags?.join(", ") ?? undefined,
+    keywords: article.sns_hashtags?.map((t: string) => t.replace(/^#/, "")).join(", ") ?? undefined,
   };
 
   return (
@@ -191,7 +191,7 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
               className="inline-flex items-center gap-1 text-sm text-muted-foreground hover:text-foreground"
             >
               <ArrowLeft className="h-4 w-4" />
-              매거진으로 돌아가기
+              {t.magazine.backToMagazine}
             </Link>
 
             <div className="mt-4">
@@ -219,9 +219,9 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
                   )}
                 </span>
                 <span>·</span>
-                <span>{readTime}분 읽기</span>
+                <span>{readTime}{t.magazine.readTime}</span>
                 <span>·</span>
-                <span>조회 {article.view_count ?? 0}</span>
+                <span>{t.magazine.views} {article.view_count ?? 0}</span>
               </div>
             </div>
           </div>
@@ -252,10 +252,10 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
               <CardContent className="flex flex-col items-center gap-3 p-6 text-center md:p-8">
                 <Image src="/logo-icon.png" alt="놓다" width={48} height={48} className="h-12 w-auto brightness-0 invert" />
                 <p className="font-heading text-lg font-bold text-primary-foreground">
-                  짐이 많다면? 놓다 보관함에 맡기세요!
+                  {t.lockerTip.title}
                 </p>
                 <p className="text-sm text-primary-foreground/90">
-                  익선동 바로 맞은편, 종로3가역 4번 출구 도보 2분
+                  {t.lockerTip.subtitle}
                 </p>
                 <Button
                   variant="secondary"
@@ -268,7 +268,7 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
                     />
                   }
                 >
-                  보관함 이용하기
+                  {t.locker.ctaUse}
                 </Button>
               </CardContent>
             </Card>
@@ -285,7 +285,7 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
           <section className="bg-card px-4 py-12">
             <div className="mx-auto max-w-3xl">
               <h2 className="font-heading text-lg font-bold">
-                이런 글도 있어요
+                {t.magazine.relatedArticles}
               </h2>
               <div className="mt-4 grid gap-4 sm:grid-cols-3">
                 {related.map((r) => (
