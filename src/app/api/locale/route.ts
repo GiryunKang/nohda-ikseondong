@@ -8,7 +8,7 @@ import type { Locale } from "@/lib/i18n/config";
 
 export async function POST(request: NextRequest) {
   const ip = getClientIp(request.headers);
-  const rl = checkRateLimit(`locale:${ip}`, { limit: 20, windowSeconds: 60 });
+  const rl = await checkRateLimit(`locale:${ip}`, { limit: 20, windowSeconds: 60 });
   if (!rl.success) {
     return NextResponse.json(
       { error: "요청이 너무 많습니다. 잠시 후 다시 시도해주세요." },

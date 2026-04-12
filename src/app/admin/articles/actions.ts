@@ -56,6 +56,51 @@ export async function deleteArticle(articleId: string) {
   return { success: true };
 }
 
+export async function saveGeneratedArticle(articleData: {
+  title: string;
+  slug: string;
+  category: string;
+  content: string;
+  excerpt: string;
+  status: "review" | "published";
+  sns_summary_x: string;
+  sns_summary_instagram: string;
+  sns_hashtags: string[];
+  cover_image_url?: string | null;
+}) {
+  const supabase = await createClient();
+  const { data: { user }, error: authError } = await supabase.auth.getUser();
+  if (authError) console.error("Auth check failed:", authError);
+  if (!user) return { success: false, error: "인증이 필요합니다." };
+
+  const { error } = await supabase
+    .from("articles")
+    .insert({
+      title: articleData.title,
+      slug: articleData.slug + "-" + Date.now().toString(36),
+      category: articleData.category,
+      content: articleData.content,
+      excerpt: articleData.excerpt,
+      status: articleData.status,
+      author_id: user.id,
+      sns_summary_x: articleData.sns_summary_x,
+      sns_summary_instagram: articleData.sns_summary_instagram,
+      sns_hashtags: articleData.sns_hashtags,
+      cover_image_url: articleData.cover_image_url ?? null,
+      is_ai_generated: true,
+    });
+
+  if (error) {
+    console.error("Article save failed:", error);
+    return { success: false, error: "처리 중 오류가 발생했습니다" };
+  }
+
+  revalidatePath("/admin/articles");
+  revalidatePath("/magazine");
+  revalidatePath("/");
+  return { success: true };
+}
+
 export async function triggerCrawl() {
   const supabase = await createClient();
   const { data: { user }, error: authError } = await supabase.auth.getUser();

@@ -5,6 +5,7 @@ import { useState } from "react";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 
+import { saveGeneratedArticle } from "@/app/admin/articles/actions";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -110,22 +111,29 @@ export default function AIWriterPage() {
     setSaveResult(null);
 
     try {
-      const response = await fetch("/api/generate", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ category, topic, tone, save: true }),
+      const result = await saveGeneratedArticle({
+        title: article.title,
+        slug: article.slug,
+        category,
+        content: article.content,
+        excerpt: article.excerpt,
+        status,
+        sns_summary_x: article.sns_summary_x,
+        sns_summary_instagram: article.sns_summary_instagram,
+        sns_hashtags: article.sns_hashtags,
+        cover_image_url: coverSvg
+          ? `data:image/svg+xml;base64,${btoa(unescape(encodeURIComponent(coverSvg)))}`
+          : null,
       });
 
-      const data = await response.json();
-
-      if (data.saved) {
+      if (result.success) {
         setSaveResult(
           status === "published"
             ? "발행되었습니다!"
             : "검토 대기로 저장되었습니다."
         );
       } else {
-        setSaveResult(`저장 실패: ${data.save_error ?? "알 수 없는 오류"}`);
+        setSaveResult(`저장 실패: ${result.error ?? "알 수 없는 오류"}`);
       }
     } catch (err) {
       console.error("Article save failed:", err);
