@@ -11,11 +11,15 @@ const literata = Literata({
   variable: "--font-heading",
   subsets: ["latin"],
   weight: ["400", "500", "600", "700"],
+  display: "swap",
+  preload: true,
 });
 
 const dmSans = DM_Sans({
   variable: "--font-sans",
   subsets: ["latin"],
+  display: "swap",
+  preload: true,
 });
 
 const META_BY_LOCALE: Record<string, { title: string; description: string; keywords: string[] }> = {

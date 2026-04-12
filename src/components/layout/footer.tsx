@@ -49,6 +49,16 @@ export function Footer() {
                   {t.footer.lockerLink}
                 </a>
               </li>
+              <li>
+                <Link href="/privacy" className="text-sm text-muted-foreground hover:text-foreground">
+                  개인정보처리방침
+                </Link>
+              </li>
+              <li>
+                <Link href="/terms" className="text-sm text-muted-foreground hover:text-foreground">
+                  이용약관
+                </Link>
+              </li>
             </ul>
           </div>
 
