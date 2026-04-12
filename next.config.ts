@@ -5,7 +5,7 @@ const securityHeaders = [
     key: "Content-Security-Policy",
     value: [
       "default-src 'self'",
-      "script-src 'self' 'sha256-cZDnjXaZDhkfyAF69Fp3I/+uJNbahp+in7x1D3D4SWw='",
+      "script-src 'self' 'unsafe-inline' 'unsafe-eval'",
       "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com",
       "font-src 'self' https://fonts.gstatic.com",
       "img-src 'self' data: blob: https://*.supabase.co https://*.googleapis.com https://upload.wikimedia.org https://commons.wikimedia.org https://lh3.googleusercontent.com",
