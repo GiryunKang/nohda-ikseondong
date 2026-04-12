@@ -76,7 +76,7 @@ export default async function MagazinePage({ searchParams }: MagazinePageProps) 
     <>
       <Header />
 
-      <main className="flex-1">
+      <main id="main-content" className="flex-1">
         {/* Page Header */}
         <section className="px-5 pb-6 pt-12 md:pt-16">
           <div className="mx-auto max-w-5xl">

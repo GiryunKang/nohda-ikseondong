@@ -20,7 +20,7 @@ export default function ErrorBoundary({ error, reset }: ErrorBoundaryProps) {
   return (
     <>
       <Header />
-      <main className="flex-1">
+      <main id="main-content" className="flex-1">
         <section className="flex min-h-[60vh] items-center justify-center px-5 py-16">
           <div className="mx-auto max-w-md text-center">
             <p className="text-xs font-medium uppercase tracking-[0.2em] text-primary">

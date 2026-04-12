@@ -169,7 +169,7 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
       />
       <Header />
 
-      <main className="flex-1">
+      <main id="main-content" className="flex-1">
         {/* Cover Image */}
         {article.cover_image_url && (
           <section className="relative">

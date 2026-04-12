@@ -32,7 +32,7 @@ export default async function HomePage() {
     <>
       <Header />
 
-      <main className="flex-1">
+      <main id="main-content" className="flex-1">
         {/* Hero — Editorial full-bleed */}
         <section className="relative min-h-[70vh] overflow-hidden bg-secondary">
           <div className="absolute inset-0">

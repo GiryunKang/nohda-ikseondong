@@ -13,7 +13,7 @@ export default function TermsPage() {
   return (
     <>
       <Header />
-      <main className="flex-1">
+      <main id="main-content" className="flex-1">
         <section className="px-5 py-12 md:py-16">
           <div className="mx-auto max-w-3xl">
             <h1 className="font-heading text-3xl font-bold">이용약관</h1>
