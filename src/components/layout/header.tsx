@@ -11,6 +11,7 @@ import { useI18n } from "@/lib/i18n/context";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { LocaleSwitcher } from "@/components/locale-switcher";
+import { ThemeToggle } from "@/components/theme-toggle";
 
 export function Header() {
   const [open, setOpen] = useState(false);
@@ -54,6 +55,7 @@ export function Header() {
               {item.label}
             </Link>
           ))}
+          <ThemeToggle />
           <LocaleSwitcher />
           <Button size="sm" render={<a href="https://놓다.com" target="_blank" rel="noopener noreferrer" />}>
             {t.nav.useLocker}
@@ -61,6 +63,7 @@ export function Header() {
         </nav>
 
         <div className="flex items-center gap-2 md:hidden">
+          <ThemeToggle />
           <LocaleSwitcher />
           <Sheet open={open} onOpenChange={setOpen}>
             <SheetTrigger

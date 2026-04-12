@@ -96,7 +96,15 @@ export default async function RootLayout({
     <html
       lang={locale}
       className={`${literata.variable} ${dmSans.variable} h-full antialiased`}
+      suppressHydrationWarning
     >
+      <head>
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `(function(){try{var t=localStorage.getItem("nohda-theme");if(t==="dark"||(!t&&matchMedia("(prefers-color-scheme:dark)").matches))document.documentElement.classList.add("dark")}catch(e){}})()`,
+          }}
+        />
+      </head>
       <body className="min-h-full flex flex-col font-sans">
         <I18nProvider locale={locale}>
           {children}
