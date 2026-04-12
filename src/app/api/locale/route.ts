@@ -1,11 +1,21 @@
 import { NextResponse } from "next/server";
 
 import { COOKIE_NAME, LOCALES } from "@/lib/i18n/config";
+import { checkRateLimit, getClientIp } from "@/lib/rate-limit";
 
 import type { NextRequest } from "next/server";
 import type { Locale } from "@/lib/i18n/config";
 
 export async function POST(request: NextRequest) {
+  const ip = getClientIp(request.headers);
+  const rl = checkRateLimit(`locale:${ip}`, { limit: 20, windowSeconds: 60 });
+  if (!rl.success) {
+    return NextResponse.json(
+      { error: "요청이 너무 많습니다. 잠시 후 다시 시도해주세요." },
+      { status: 429, headers: { "Retry-After": String(Math.ceil((rl.resetAt - Date.now()) / 1000)) } }
+    );
+  }
+
   let locale: string;
   try {
     const body = await request.json();

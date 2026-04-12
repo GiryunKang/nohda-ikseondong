@@ -6,6 +6,7 @@ import { cookies } from "next/headers";
 
 import { crawlKakao } from "@/lib/crawlers/kakao";
 import { crawlGoogle } from "@/lib/crawlers/google";
+import { checkRateLimit, getClientIp } from "@/lib/rate-limit";
 
 import type { CrawledPlace } from "@/lib/crawlers/types";
 import type { NextRequest } from "next/server";
@@ -24,6 +25,15 @@ export async function POST(request: NextRequest) {
 }
 
 async function handleCrawl(request: NextRequest) {
+  const ip = getClientIp(request.headers);
+  const rl = checkRateLimit(`crawl:${ip}`, { limit: 2, windowSeconds: 300 });
+  if (!rl.success) {
+    return NextResponse.json(
+      { error: "요청이 너무 많습니다. 잠시 후 다시 시도해주세요." },
+      { status: 429, headers: { "Retry-After": String(Math.ceil((rl.resetAt - Date.now()) / 1000)) } }
+    );
+  }
+
   const authHeader = request.headers.get("authorization");
   const cronSecret = process.env.CRON_SECRET;
   const serviceRoleKey = process.env.SUPABASE_SERVICE_ROLE_KEY;

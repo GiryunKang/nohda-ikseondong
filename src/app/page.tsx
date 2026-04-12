@@ -40,6 +40,7 @@ export default async function HomePage() {
               src="/illustrations/course.svg"
               alt=""
               fill
+              priority
               className="object-cover opacity-30"
             />
             <div className="absolute inset-0 bg-gradient-to-t from-secondary via-secondary/60 to-secondary/30" />
