@@ -1,6 +1,8 @@
 import Link from "next/link";
 import Image from "next/image";
 
+import { LayoutDashboard, FileText, MapPin as MapPinIcon, Sparkles, Share2 } from "lucide-react";
+
 import { createClient } from "@/lib/supabase/server";
 
 import { LogoutButton } from "./logout-button";
@@ -66,11 +68,11 @@ function AdminSidebar({ name, role }: { name: string; role: string }) {
       </div>
 
       <nav className="flex-1 space-y-1 p-3">
-        <SidebarLink href="/admin" label="대시보드" icon="📊" />
-        <SidebarLink href="/admin/articles" label="콘텐츠 관리" icon="📝" />
-        <SidebarLink href="/admin/places" label="장소 관리" icon="📍" />
-        <SidebarLink href="/admin/ai-writer" label="AI 글쓰기" icon="✨" />
-        <SidebarLink href="/admin/sns" label="SNS 발행" icon="📱" />
+        <SidebarLink href="/admin" label="대시보드" icon={LayoutDashboard} />
+        <SidebarLink href="/admin/articles" label="콘텐츠 관리" icon={FileText} />
+        <SidebarLink href="/admin/places" label="장소 관리" icon={MapPinIcon} />
+        <SidebarLink href="/admin/ai-writer" label="AI 글쓰기" icon={Sparkles} />
+        <SidebarLink href="/admin/sns" label="SNS 발행" icon={Share2} />
       </nav>
 
       <div className="border-t border-border p-4">
@@ -95,18 +97,18 @@ function AdminSidebar({ name, role }: { name: string; role: string }) {
 function SidebarLink({
   href,
   label,
-  icon,
+  icon: Icon,
 }: {
   href: string;
   label: string;
-  icon: string;
+  icon: React.ComponentType<{ className?: string }>;
 }) {
   return (
     <Link
       href={href}
       className="flex items-center gap-3 rounded-lg px-3 py-2 text-sm text-muted-foreground transition-colors hover:bg-accent hover:text-foreground"
     >
-      <span>{icon}</span>
+      <Icon className="h-4 w-4" />
       {label}
     </Link>
   );

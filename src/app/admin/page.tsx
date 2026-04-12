@@ -1,3 +1,5 @@
+import { FileText, CheckCircle, MapPin, Share2 } from "lucide-react";
+
 import { createClient } from "@/lib/supabase/server";
 import { Card, CardContent } from "@/components/ui/card";
 
@@ -22,10 +24,10 @@ export default async function AdminDashboardPage() {
   [e1, e2, e3, e4].forEach((e, i) => { if (e) console.error(`Dashboard query ${i} failed:`, e); });
 
   const stats = [
-    { label: "총 콘텐츠", value: articleCount ?? 0, icon: "📝" },
-    { label: "발행됨", value: publishedCount ?? 0, icon: "✅" },
-    { label: "등록 장소", value: placeCount ?? 0, icon: "📍" },
-    { label: "SNS 공유", value: snsCount ?? 0, icon: "📱" },
+    { label: "총 콘텐츠", value: articleCount ?? 0, Icon: FileText },
+    { label: "발행됨", value: publishedCount ?? 0, Icon: CheckCircle },
+    { label: "등록 장소", value: placeCount ?? 0, Icon: MapPin },
+    { label: "SNS 공유", value: snsCount ?? 0, Icon: Share2 },
   ];
 
   const { data: recentArticles, error: recentError } = await supabase
@@ -45,7 +47,7 @@ export default async function AdminDashboardPage() {
           <Card key={stat.label} className="border shadow-sm">
             <CardContent className="p-4">
               <div className="flex items-center justify-between">
-                <span className="text-2xl">{stat.icon}</span>
+                <stat.Icon className="h-6 w-6 text-primary" />
                 <span className="font-heading text-2xl font-bold">
                   {stat.value}
                 </span>

@@ -2,7 +2,7 @@ import Link from "next/link";
 
 import Image from "next/image";
 
-import { ArrowRight, MapPin } from "lucide-react";
+import { ArrowRight, MapPin, Backpack, Briefcase, Luggage } from "lucide-react";
 
 import { createClient } from "@/lib/supabase/server";
 import { CATEGORY_LABELS } from "@/lib/constants";
@@ -251,12 +251,12 @@ export default async function HomePage() {
                 />
                 <div className="grid grid-cols-3 gap-3 text-center">
                   {[
-                    { label: t.locker.small, icon: "/illustrations/locker.svg" },
-                    { label: t.locker.medium, icon: "/illustrations/locker.svg" },
-                    { label: t.locker.large, icon: "/illustrations/locker.svg" },
+                    { label: t.locker.small, Icon: Backpack },
+                    { label: t.locker.medium, Icon: Briefcase },
+                    { label: t.locker.large, Icon: Luggage },
                   ].map((item) => (
                     <div key={item.label} className="rounded-md bg-card px-3 py-2 shadow-sm">
-                      <Image src={item.icon} alt="" width={28} height={28} className="mx-auto h-7 w-7" />
+                      <item.Icon className="mx-auto h-7 w-7 text-primary" />
                       <p className="mt-1 text-[10px] font-medium text-muted-foreground">{item.label}</p>
                     </div>
                   ))}

@@ -1,5 +1,5 @@
 import Image from "next/image";
-import { MapPin, Clock, Phone, ExternalLink, Package } from "lucide-react";
+import { MapPin, Clock, Phone, ExternalLink, Package, Backpack, Briefcase, Luggage, Train, Home } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
@@ -16,9 +16,9 @@ export const metadata: Metadata = {
 };
 
 const LOCKER_SIZES = [
-  { size: "소형", description: "배낭, 작은 가방", icon: "🎒" },
-  { size: "중형", description: "18인치 이하 캐리어", icon: "🧳" },
-  { size: "대형", description: "28인치 캐리어까지", icon: "🛄" },
+  { size: "소형", description: "배낭, 작은 가방", Icon: Backpack },
+  { size: "중형", description: "18인치 이하 캐리어", Icon: Briefcase },
+  { size: "대형", description: "28인치 캐리어까지", Icon: Luggage },
 ] as const;
 
 export default function AboutPage() {
@@ -80,13 +80,13 @@ export default function AboutPage() {
 
                 <div className="space-y-3 text-sm">
                   <div className="flex items-center gap-3">
-                    <span className="text-lg">🚇</span>
+                    <Train className="h-5 w-5 text-primary" />
                     <p>
                       <strong>종로3가역</strong> 4번 출구에서 도보 1분 (35m)
                     </p>
                   </div>
                   <div className="flex items-center gap-3">
-                    <span className="text-lg">🏘️</span>
+                    <Home className="h-5 w-5 text-primary" />
                     <p>
                       <strong>익선동 한옥마을</strong> 바로 맞은편
                     </p>
@@ -120,7 +120,7 @@ export default function AboutPage() {
               {LOCKER_SIZES.map((locker) => (
                 <Card key={locker.size} className="border shadow-sm">
                   <CardContent className="flex flex-col items-center p-6 text-center">
-                    <span className="text-4xl">{locker.icon}</span>
+                    <locker.Icon className="h-10 w-10 text-primary" />
                     <h3 className="mt-3 font-heading text-lg font-semibold">
                       {locker.size}
                     </h3>
